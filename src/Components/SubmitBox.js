@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     // Stlying for the Submit Box
     let style = {
-
+ 
     }
     
     //State of the Submit Box
@@ -95,7 +95,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     return (
         <div style={style}>
             <form onSubmit={handleSubmit}>
-            <input style={{width: "100%", background: "black", fontFamily: 'TerminalFont', color: "#4AF626"}} placeholder="Elijah:\\Room_One>>" onChange={handleChange}></input>
+            <input style={{width: "90%", background: "black", fontFamily: 'TerminalFont', color: "#4AF626"}} placeholder="Elijah:\\Room_One>>" onChange={handleChange}></input>
             </form>
         </div>
     )
