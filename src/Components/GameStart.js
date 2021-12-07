@@ -1,7 +1,16 @@
 import React, {useState} from 'react'
+import Typewriter from 'typewriter-effect';
 
 const GameStart = ({setCollectedUser, setCurrRoom}) => {
     
+    let style = {
+        color: "#4AF626",
+        // border: "1px solid #4AF626",
+        height: "205px",
+        marginTop: "1%",
+        marginBottom: "1%",
+        fontFamily: 'TerminalFont'
+    }
     function handleSubmit(e) {
         e.preventDefault()
         console.log(form);
@@ -29,14 +38,29 @@ const GameStart = ({setCollectedUser, setCurrRoom}) => {
     function handleChange(e) {
         setForm({...form, [e.target.name]: e.target.value})
     }
+
+    let formStyle = {
+        width: "100%", 
+        background: "black", 
+        fontFamily: 'TerminalFont', 
+        color: "#4AF626"
+    }
     
     return (
         <div>
-            <p style={{height: "300px"}} >Enter the realm of OUTER SPACE and attempt to make your way out, beware meteors, exploding sattelites, and Jeff Bezos</p>
+            <div style={{height: "280px"}}>
+                <Typewriter
+                    options={{
+                        strings: ["Enter the realm of OUTER SPACE and attempt to make your way out, beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships!"],
+                        autoStart: true,
+                        wrapperClassName: "gameStart"
+                    }}
+                    />
+            </div>
             <form onSubmit={handleSubmit}>
-                <input onChange={handleChange} name="username" placeholder="username"></input>
-                <input onChange={handleChange} name="email" placeholder="email"></input>
-                <button>Play</button>
+                <input style={formStyle} onChange={handleChange} name="username" placeholder="username"></input>
+                <input style={formStyle} onChange={handleChange} name="email" placeholder="email"></input>
+                <button style={formStyle}>Play</button>
             </form>
         </div>
     )
