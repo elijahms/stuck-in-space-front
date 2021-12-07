@@ -12,3 +12,15 @@ code {
   font-family: 'TerminalFont';
 src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
 }
+
+.gameStart {
+  color: #4AF626;
+  height: 70%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  font-family: 'TerminalFont'
+}
+
+::selection {
+  background: #4AF626 /* WebKit/Blink Browsers */
+}
