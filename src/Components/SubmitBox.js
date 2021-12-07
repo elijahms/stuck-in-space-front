@@ -16,39 +16,40 @@ const SubmitBox = () => {
     let items = [ 
         {
             name: "Book",
-            is_talkable: true,
-            is_takeable: true,
+            is_talkable: 0,
+            is_takeable: 1,
             talk_choice_1: "th",
             talk_choice_2: "dfdf",
             inspect_choice_1: "45433",
             inspect_choice_2: "223",
             catalyst_item: 3,
             catalyst_response: "String",
-            is_attackable: true,
+            is_attackable: 0,
             when_attacked: "String",
             when_talked: "String",
-            exit_trigger: 2,
+            exit_trigger: 1,
             triggers_on: "Item"
         },
         {
             name: "Person",
-            is_talkable: true,
-            is_takeable: true,
+            is_talkable: 1,
+            is_takeable: 0,
             talk_choice_1: "th",
             talk_choice_2: "dfdf",
             inspect_choice_1: "45433",
             inspect_choice_2: "223",
             catalyst_item: 3,
             catalyst_response: "String",
-            is_attackable: true,
+            is_attackable: 1,
             when_attacked: "String",
             when_talked: "String",
-            exit_trigger: 2,
+            exit_trigger: 1,
             triggers_on: "Item"
         }
     ]
 
-    let itemNames = [...items].map((i) => i.name)
+    let itemNames = [...items].map((i) => i.name.toLowerCase())
+    let inventory = []
 
     console.log(itemNames);
     
@@ -62,13 +63,49 @@ const SubmitBox = () => {
         e.preventDefault()
         let input = sub.split(" ")
         console.log(input);
-        if (["inspect", "attack", "use", "talk", "inventory"].includes(input[0].toLowerCase()) && itemNames.includes(input[1].toLowerCase())) {
+        if (["inspect", "attack", "use", "talk", "inventory","take"].includes(input[0].toLowerCase()) && itemNames.includes(input[1].toLowerCase())) {
             console.log("Good");
-            return "Acceptable Verb"
+            console.log(input[1])
+            if (input[0].toLowerCase()=="take"){
+                handleTake(input[1])
+            }
+            e.target.reset()
+            // return "Acceptable Verb"
         } else {
             console.log("bad");
+            console.log(input[1])
+            e.target.reset()
             return "We dont recognize that"
+            
         }
+    }
+
+    function handleTake(item){
+        let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
+        console.log(foundItem)
+        console.log(inventory)
+        if (foundItem.is_takeable==0){
+            console.log(`You can't Take the ${foundItem.name}! Sorry!`)
+            return `You can't Take the ${foundItem.name}! Sorry!`
+        }
+        else {
+            if (inventory.includes(foundItem)){
+                console.log(`You already have the ${foundItem.name}!`)
+                return `You already have the ${foundItem.name}!`
+            }
+            else {
+                foundItem.exit_trigger=1
+                inventory.push(foundItem)
+                console.log(`You picked up ${foundItem.name}!`)
+                console.log(inventory)
+                return `You picked up ${foundItem.name}!`
+
+            }
+        }
+    }
+
+    function handleInspect(item){
+
     }
 
     return (
