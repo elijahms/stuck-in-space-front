@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const SubmitBox = () => {
+const SubmitBox = ({displayText, setDisplayText}) => {
     // Stlying for the Submit Box
     let style = {
 
@@ -13,6 +13,13 @@ const SubmitBox = () => {
         name: "First Room",
         description: "You see a Wild Wes and he is eating the rich. He looks at you as you appear, and smells your money. There is a cup of coffee, a Settlers of Catan, and a Apple watch."
     }
+
+    fetch(`http://localhost:9292/${"room/1"}`)
+    .then((r) => r.json())
+    .then((data) => {
+        console.log(data);
+    })
+
     let items = [ 
         {
             name: "Book",
@@ -75,7 +82,7 @@ const SubmitBox = () => {
             console.log("bad");
             console.log(input[1])
             e.target.reset()
-            return "We dont recognize that"
+            return "We don't recognize that"
             
         }
     }
@@ -85,17 +92,20 @@ const SubmitBox = () => {
         console.log(foundItem)
         console.log(inventory)
         if (foundItem.is_takeable==0){
+            setDisplayText(`You can't Take the ${foundItem.name}! Sorry!`)
             console.log(`You can't Take the ${foundItem.name}! Sorry!`)
             return `You can't Take the ${foundItem.name}! Sorry!`
         }
         else {
             if (inventory.includes(foundItem)){
+                setDisplayText(`You already have the ${foundItem.name}!`)
                 console.log(`You already have the ${foundItem.name}!`)
                 return `You already have the ${foundItem.name}!`
             }
             else {
                 foundItem.exit_trigger=1
                 inventory.push(foundItem)
+                setDisplayText(`You picked up ${foundItem.name}!`)
                 console.log(`You picked up ${foundItem.name}!`)
                 console.log(inventory)
                 return `You picked up ${foundItem.name}!`

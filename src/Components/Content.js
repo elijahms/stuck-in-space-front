@@ -31,10 +31,11 @@ const Content = () => {
     
     const [collectedUser, setCollectedUser] = useState(false)
     const [currRoom, setCurrRoom] = useState(0)
+    const [displayText, setDisplayText] = useState("Enter the realm of OUTER SPACE and attempt to make your way out, beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships!")
     
     return (
         <div style={style}>
-            <Grid container columns={3} stackable >
+            <Grid style={{width: "100%", fonSize: "20rem"}} container columns={3} stackable >
             <Grid.Column style={gridStyle}>
                 <Score />
                 </Grid.Column>
@@ -45,10 +46,10 @@ const Content = () => {
                 <TimeInRoom currRoom={currRoom}/>
                 </Grid.Column>
             </Grid>
-            {!collectedUser ? <GameStart setCollectedUser={setCollectedUser} setCurrRoom={setCurrRoom} /> :
+            {!collectedUser ? <GameStart setCollectedUser={setCollectedUser} displayText={displayText} setDisplayText={setDisplayText} setCurrRoom={setCurrRoom} /> :
             <div>
-            <DisplayText />
-            <SubmitBox />  
+            <DisplayText displayText={displayText} setDisplayText={setDisplayText} />
+            <SubmitBox  displayText={displayText} setDisplayText={setDisplayText}/>  
             </div>}
         </div>
     )
