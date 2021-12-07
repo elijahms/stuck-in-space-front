@@ -49,7 +49,7 @@ const Content = () => {
             {!collectedUser ? <GameStart setCollectedUser={setCollectedUser} displayText={displayText} setDisplayText={setDisplayText} setCurrRoom={setCurrRoom} /> :
             <div>
             <DisplayText displayText={displayText} setDisplayText={setDisplayText} />
-            <SubmitBox  displayText={displayText} setDisplayText={setDisplayText}/>  
+            <SubmitBox  displayText={displayText} setDisplayText={setDisplayText} setCurrRoom={setCurrRoom} currRoom={currRoom}/>  
             </div>}
         </div>
     )

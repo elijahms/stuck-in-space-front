@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-const SubmitBox = ({displayText, setDisplayText}) => {
+const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     // Stlying for the Submit Box
     let style = {
 
@@ -8,52 +8,26 @@ const SubmitBox = ({displayText, setDisplayText}) => {
     
     //State of the Submit Box
     const [sub, setSub] = useState(null)
+    const [items, setItems] = useState([])
+    const [roomInfo, setRoomInfo] = useState([])
 
-    let room = {
-        name: "First Room",
-        description: "You see a Wild Wes and he is eating the rich. He looks at you as you appear, and smells your money. There is a cup of coffee, a Settlers of Catan, and a Apple watch."
-    }
 
-    fetch(`http://localhost:9292/${"room/1"}`)
-    .then((r) => r.json())
-    .then((data) => {
-        console.log(data);
-    })
+    useEffect(() => {
+        fetch(`http://localhost:9292/room/${currRoom}`)
+        .then((r) => r.json())
+        .then((data) => {
+            setRoomInfo(data)
+            console.log(data);
+        })
+    
+        fetch(`http://localhost:9292/item/${currRoom}`)
+        .then((r) => r.json())
+        .then((data) => {
+            setItems(data)
+            console.log(data);
+        })
+    }, [])
 
-    let items = [ 
-        {
-            name: "Book",
-            is_talkable: 0,
-            is_takeable: 1,
-            talk_choice_1: "th",
-            talk_choice_2: "dfdf",
-            inspect_choice_1: "45433",
-            inspect_choice_2: "223",
-            catalyst_item: 3,
-            catalyst_response: "String",
-            is_attackable: 0,
-            when_attacked: "String",
-            when_talked: "String",
-            exit_trigger: 1,
-            triggers_on: "Item"
-        },
-        {
-            name: "Person",
-            is_talkable: 1,
-            is_takeable: 0,
-            talk_choice_1: "th",
-            talk_choice_2: "dfdf",
-            inspect_choice_1: "45433",
-            inspect_choice_2: "223",
-            catalyst_item: 3,
-            catalyst_response: "String",
-            is_attackable: 1,
-            when_attacked: "String",
-            when_talked: "String",
-            exit_trigger: 1,
-            triggers_on: "Item"
-        }
-    ]
 
     let itemNames = [...items].map((i) => i.name.toLowerCase())
     let inventory = []
