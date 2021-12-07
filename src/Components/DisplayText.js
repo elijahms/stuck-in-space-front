@@ -1,7 +1,7 @@
 import {useState} from 'react'
 
 
-const DisplayText = () => {
+const DisplayText = ({displayText, setDisplayText}) => {
     
     let style = {
         color: "#4AF626",
@@ -11,12 +11,10 @@ const DisplayText = () => {
         marginBottom: "1%",
         fontFamily: 'TerminalFont'
     }
-
-    const [currText, setCurrText] = useState("Room One Test...")
     
     return (
         <div style={style}>
-            <h3>{currText}</h3>
+            <h3>{displayText}</h3>
         </div>
     )
 }

@@ -1,7 +1,8 @@
 import React, {useState} from 'react'
+import { StepDescription } from 'semantic-ui-react';
 import Typewriter from 'typewriter-effect';
 
-const GameStart = ({setCollectedUser, setCurrRoom}) => {
+const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText}) => {
     
     let style = {
         color: "#4AF626",
@@ -15,25 +16,27 @@ const GameStart = ({setCollectedUser, setCurrRoom}) => {
         e.preventDefault()
         console.log(form);
         // Add fetch post here that appends username
-        // fetch(`blank.com/eats`, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type" : "application/json"
-        //     },
-        //     body: JSON.stringify(form)
-        // })
-        // .then((r) => r.json())
-        // .then((data) => {
-        //     console.log(data);
-        // })
+        fetch(`http://localhost:9292/newuser`, {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(form)
+        })
+        .then((r) => r.json())
+        .then((data) => {
+            console.log(data);
+        })
         setCollectedUser(true)
         setCurrRoom(1)
+        setDisplayText(`Welcome ${form.username}, you've been abducted!`)
     }
 
     const [form, setForm] = useState({
         username: null,
         email: null
     })
+
 
     function handleChange(e) {
         setForm({...form, [e.target.name]: e.target.value})
@@ -51,7 +54,7 @@ const GameStart = ({setCollectedUser, setCurrRoom}) => {
             <div style={{height: "280px"}}>
                 <Typewriter
                     options={{
-                        strings: ["Enter the realm of OUTER SPACE and attempt to make your way out, beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships!"],
+                        strings: displayText,
                         autoStart: true,
                         wrapperClassName: "gameStart"
                     }}

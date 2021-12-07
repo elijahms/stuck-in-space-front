@@ -6,13 +6,13 @@ const TimeInRoom = ({currRoom}) => {
 
     useEffect(() => {
         // let timer = setInterval(() => setCount(count + 1), 1000)
-        setInterval(() => setCount((count) => count += 1), 1000)
-            if (currRoom != 0){
-                setCount(0)
-            }
+        const fiveSeconds = setTimeout(() => setCount(0), 5000)
+        const timer = setInterval(() => setCount((count) => count += 1), 1000)
+
+        return () => timer.clearInterval()
+
 
     }, [])
-
 
     return (
         <div>
