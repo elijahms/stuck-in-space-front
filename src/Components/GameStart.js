@@ -56,7 +56,8 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
                     options={{
                         strings: displayText,
                         autoStart: true,
-                        wrapperClassName: "gameStart"
+                        wrapperClassName: "gameStart",
+                        delay: 42
                     }}
                     />
             </div>

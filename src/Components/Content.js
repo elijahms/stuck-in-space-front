@@ -6,16 +6,18 @@ import DisplayText from './DisplayText'
 import SubmitBox from './SubmitBox'
 import GameStart from './GameStart'
 import {useState} from 'react'
-import { Grid, Button} from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 const Content = () => {
     
     let style = {
         width: "50%",
-        height: "400px",
+        height: "500px",
         border: "2px solid white",
         margin: "0 auto",
-        padding: "1%"
+        padding: "1%",
+        dispay: "block",
+        overflow: "auto"
 
     }
 
@@ -23,10 +25,12 @@ const Content = () => {
         display: "inline-grid",
         justifyContent: "center",
         alignItems: "center",
-        width: "33%",
+        margin: "1%",
+        padding: "1%",
         color: "#4AF626",
         fontFamily: 'TerminalFont',
-        border: "1px solid white"
+        border: "1px solid white",
+        fontSize: "1em"
     }
     
     const [collectedUser, setCollectedUser] = useState(false)
@@ -35,7 +39,7 @@ const Content = () => {
     
     return (
         <div style={style}>
-            <Grid style={{width: "100%", fonSize: "20rem"}} container columns={3} stackable >
+            <Grid container columns={3} stackable >
             <Grid.Column style={gridStyle}>
                 <Score />
                 </Grid.Column>
@@ -47,9 +51,10 @@ const Content = () => {
                 </Grid.Column>
             </Grid>
             {!collectedUser ? <GameStart setCollectedUser={setCollectedUser} displayText={displayText} setDisplayText={setDisplayText} setCurrRoom={setCurrRoom} /> :
-            <div>
+            <div style={{height: "70%"}}>
             <DisplayText displayText={displayText} setDisplayText={setDisplayText} />
-            <SubmitBox  displayText={displayText} setDisplayText={setDisplayText} setCurrRoom={setCurrRoom} currRoom={currRoom}/>  
+            <SubmitBox  displayText={displayText} setDisplayText={setDisplayText} setCurrRoom={setCurrRoom} currRoom={currRoom}
+            />
             </div>}
         </div>
     )
