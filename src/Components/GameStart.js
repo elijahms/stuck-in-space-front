@@ -1,50 +1,13 @@
-import React, {useState} from 'react'
-import { StepDescription } from 'semantic-ui-react';
-import Typewriter from 'typewriter-effect';
-import { Form, Input } from 'semantic-ui-react'
+import {useState} from 'react'
+import Typewriter from 'typewriter-effect'
 
-const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText}) => {
-    
-    let style = {
-        color: "#4AF626",
-        // border: "1px solid #4AF626",
-        height: "205px",
-        marginTop: "1%",
-        marginBottom: "1%",
-        fontFamily: 'TerminalFont'
-    }
-    function handleSubmit(e) {
-        e.preventDefault()
-        if (form.username.length < 3 || form.email === null) {
-            setDisplayText("please add a valid information")
-        } else {
-        // Add fetch post here that appends username
-        fetch(`http://localhost:9292/newuser`, {
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json"
-            },
-            body: JSON.stringify(form)
-        })
-        .then((r) => r.json())
-        .then((data) => {
-            console.log(data);
-        })
-        setCollectedUser(true)
-        setCurrRoom(1)
-        setDisplayText(`Welcome ${form.username}, you've been abducted!`)
-        }
-    }
+
+const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, setUserDetails}) => {
 
     const [form, setForm] = useState({
         username: 0,
         email: null
     })
-
-
-    function handleChange(e) {
-        setForm({...form, [e.target.name]: e.target.value})
-    }
 
     let formStyle = {
         width: "100%", 
@@ -52,6 +15,45 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
         fontFamily: 'TerminalFont', 
         color: "#4AF626",
         border: "hidden"
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        let checkUser = []
+        fetch(`http://localhost:9292/allusers`)
+        .then((r) => r.json())
+        .then((data) => {
+            checkUser = data;
+            console.log(checkUser);
+            console.log(form.username);
+        })
+        if (form.username.length < 3 || form.email === null) {
+            setDisplayText("please add a valid information")
+        } else {
+            if (checkUser.includes(form.username)) {
+                alert("sneaky bastard")
+            } else {
+                fetch(`http://localhost:9292/newuser`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body: JSON.stringify(form)
+                })
+                .then((r) => r.json())
+                .then((data) => {
+                    console.log(data);
+                    setUserDetails(data)
+                })
+                setCollectedUser(true)
+                setCurrRoom(1)
+                setDisplayText(`Welcome ${form.username}, you've been abducted!`)
+                }
+        }
+    }
+
+    function handleChange(e) {
+        setForm({...form, [e.target.name]: e.target.value})
     }
     
     return (
@@ -63,8 +65,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
                         autoStart: true,
                         wrapperClassName: "gameStart",
                         delay: 42
-                    }}
-                    />
+                    }}/>
             </div>
             <form onSubmit={handleSubmit}>
                 <input className="no-outline" style={formStyle} onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>

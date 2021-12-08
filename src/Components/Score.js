@@ -1,7 +1,6 @@
-import React, {useState} from 'react'
 
-const Score = () => {
-    const [score, setScore] = useState(10000)
+const Score = ({score}) => {
+    
     let gridStyle = {
         display: "inline-grid",
         justifyContent: "center",
@@ -14,9 +13,10 @@ const Score = () => {
         fontSize: "1em",
         borderRight: "2px solid white"
     }
+
     return (
         <div style={gridStyle}>
-            <p>Moves Left: {score}</p>
+            <p>Score: {score}</p>
         </div>
     )
 }
