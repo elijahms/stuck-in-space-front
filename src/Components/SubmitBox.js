@@ -11,6 +11,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     const [items, setItems] = useState([])
     const [roomInfo, setRoomInfo] = useState([])
     const [targetedObject, setTargetedObject] = useState(null)
+    const [inventory, setInventory] = useState([])
 
 
     useEffect(() => {
@@ -31,7 +32,6 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
 
 
     let itemNames = [...items].map((i) => i.name.toLowerCase())
-    let inventory = []
 
     console.log(itemNames);
     
@@ -60,9 +60,17 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             if (input[0]=="2"){
                 setDisplayText(targetedObject.inspect_choice_2)
             } 
+        }}
+        if (input[0].toLowerCase()=="use" && input.length >=3){
+            let invtext= inventory.map((i) => i.name.toLowerCase())
+            if (invtext.includes(input[1].toLowerCase()) && itemNames.includes(input[input.length-1].toLowerCase())){
+                handleUse(input[1],input[input.length-1])
+            }
+            else {
+                setDisplayText(`I didn't quite catch that. Remember the syntax for USE is: Use (item from inventory) on (item in room)`)
+            }
         }
-    e.target.reset()}
-        if (["inspect", "attack", "use", "talk", "inventory","take"].includes(input[0].toLowerCase()) && itemNames.includes(input[input.length-1].toLowerCase())) {
+        if (["inspect", "attack", "talk", "inventory","take"].includes(input[0].toLowerCase()) && itemNames.includes(input[input.length-1].toLowerCase())) {
             let verb = input[0].toLowerCase()
             let item = input[input.length-1]
             if (verb=="take"){
@@ -77,7 +85,6 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             if (verb=="talk"){
                 handleTalk(item)
             }
-            e.target.reset()
             // return "Acceptable Verb"
         }
         else if (["h","i","r","e","help","inventory","return","exit"].includes(input[0].toLowerCase())){
@@ -94,14 +101,26 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             if (verb=="e" || verb=="exit"){
                 handleExit()
             }
-            e.target.reset()
         }
         else {
             console.log("bad");
             console.log(input[1])
-            e.target.reset()
             return "We dont recognize that"
             
+        }
+
+    e.target.reset()
+    }
+
+    function handleUse(usedItem,targetItem){
+        let foundItem = inventory.find(i => i.name.toLowerCase()==usedItem.toLowerCase())
+        let foundTarget = items.find(i => i.name.toLowerCase()==targetItem.toLowerCase())
+        if (foundItem.id == foundTarget.catalyst_item){
+            setDisplayText(foundTarget.catalyst_response)
+            foundTarget.exit_trigger=true
+        }
+        else {
+            setDisplayText(`Using ${usedItem.name} on ${targetItem.name} won't have any effect!`)
         }
     }
 
@@ -122,9 +141,11 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         if (inventory.length >0){
         let invtext= inventory.map((i) => i.name)
         setDisplayText(invtext.toString())
+        console.log(inventory)
         }
         else {
             setDisplayText("Your inventory is empty!")
+            console.log(inventory)
         }
     }
     function handleHelp() {
@@ -182,22 +203,24 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         console.log(inventory)
         if (foundItem.is_takeable==0){
             console.log(`You can't Take the ${foundItem.name}! Sorry!`)
-            return `You can't Take the ${foundItem.name}! Sorry!`
+            setDisplayText(`You can't Take the ${foundItem.name}! Sorry!`)
         }
         else {
             if (inventory.includes(foundItem)){
                 console.log(`You already have the ${foundItem.name}!`)
-                return `You already have the ${foundItem.name}!`
+                setDisplayText(`You already have the ${foundItem.name}!`)
             }
             else {
                 foundItem.exit_trigger=true
-                inventory.push(foundItem)
+                setInventory([...inventory,foundItem])
                 console.log(`You picked up ${foundItem.name}!`)
                 console.log(inventory)
-                return `You picked up ${foundItem.name}!`
+                setDisplayText(`You picked up ${foundItem.name}!`)
+                return inventory
             }
         }
     }
+
     return (
         <div style={style}>
             <form onSubmit={handleSubmit}>
