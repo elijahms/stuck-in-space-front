@@ -1,12 +1,10 @@
 import {useState, useEffect} from 'react'
 
-const TimeInRoom = ({currRoom}) => {
-
-    const [count, setCount] = useState(0)
+const TimeInRoom = ({currRoom, moveCount}) => {
 
     return (
         <div>
-            <p>Moves Taken: {count}</p>
+            <p>Moves Taken: {moveCount}</p>
         </div>
     )
 }

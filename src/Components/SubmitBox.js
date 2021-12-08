@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
+const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount}) => {
     // Stlying for the Submit Box
     let style = {
  
@@ -117,6 +117,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         let foundTarget = items.find(i => i.name.toLowerCase()==targetItem.toLowerCase())
         if (foundItem.id == foundTarget.catalyst_item){
             setDisplayText(foundTarget.catalyst_response)
+            setMoveCount((moveCount) => moveCount += 1)
             foundTarget.exit_trigger=true
         }
         else {
@@ -127,6 +128,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     function handleExit(){
         if (items.every(i => i.exit_trigger==true)){
             setCurrRoom((currRoom) => currRoom +1)
+            setMoveCount(0)
         setDisplayText(`You have successfully left the ${roomInfo.name}! Hit 'r' to continue to the next room.`)
         console.log(currRoom)}
         else {
@@ -174,6 +176,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         }
         if (foundItem.is_talkable=true){
             setDisplayText(`${foundItem.talk_response}`)
+            setMoveCount((moveCount) => moveCount += 1)
                 }
             }
     function handleAttack(item){
@@ -184,11 +187,13 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         if (foundItem.triggers_on=="attack"){
             foundItem.exit_trigger=true
             console.log(foundItem.exit_trigger)}
+            setMoveCount((moveCount) => moveCount += 1)
     }
     function handleInspect(item){
         let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
         setTargetedObject(foundItem)
         setDisplayText(foundItem.description)
+        setMoveCount((moveCount) => moveCount += 1)
         console.log(foundItem.triggers_on)
         console.log(foundItem.exit_trigger)
         if (foundItem.triggers_on=="inspect"){
@@ -216,7 +221,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
                 console.log(`You picked up ${foundItem.name}!`)
                 console.log(inventory)
                 setDisplayText(`You picked up ${foundItem.name}!`)
-                return inventory
+                setMoveCount((moveCount) => moveCount += 1)
             }
         }
     }
