@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
 
-const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount}) => {
+const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails}) => {
     // Stlying for the Submit Box
-    let style = {
- 
-    }
-    
+
     //State of the Submit Box
     const [sub, setSub] = useState(null)
     const [items, setItems] = useState([])
@@ -13,13 +10,11 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveC
     const [targetedObject, setTargetedObject] = useState(null)
     const [inventory, setInventory] = useState([])
 
-
     useEffect(() => {
         fetch(`http://localhost:9292/room/${currRoom}`)
         .then((r) => r.json())
         .then((data) => {
             setRoomInfo(data)
-            console.log(data);
         })
     
         fetch(`http://localhost:9292/item/${currRoom}`)
@@ -30,39 +25,44 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveC
         })
     }, [currRoom])
 
-
     let itemNames = [...items].map((i) => i.name.toLowerCase())
-
-    console.log(itemNames);
-    
     
     //Handles the text in the Submit Box
     function handleChange(e) {
         setSub(e.target.value)
     }
+
     function handleSubmit(e) {
         e.preventDefault()
+        console.log(userDetails);
         let input = sub.split(" ")
-        console.log(input);
+        if (roomInfo.death_threshold === moveCount) {
+            setDisplayText(roomInfo.death_threshold_met)
+            handleDeath()
+        }
         if (targetedObject){
             if (targetedObject.talk_choice_1){
-            if (input[0]=="1"){
+            if (input[0] == "1"){
                 setDisplayText(targetedObject.talk_choice_1)
             }
-            if (input[0]=="2"){
+            if (input[0] == "2"){
                 setDisplayText(targetedObject.talk_choice_2)
             } 
         }
         if (targetedObject.inspect_choice_1){
-            if (input[0]=="1"){
+            if (input[0] == "1"){
                 setDisplayText(targetedObject.inspect_choice_1)
+                if (targetedObject.death_trigger === 1) {
+                    setDeathElement(true)
+                    handleDeath()
+                }
             }
-            if (input[0]=="2"){
+            if (input[0] == "2"){
                 setDisplayText(targetedObject.inspect_choice_2)
             } 
         }}
-        if (input[0].toLowerCase()=="use" && input.length >=3){
-            let invtext= inventory.map((i) => i.name.toLowerCase())
+        if (input[0].toLowerCase() === "use" && input.length >= 3){
+            let invtext = inventory.map((i) => i.name.toLowerCase())
             if (invtext.includes(input[1].toLowerCase()) && itemNames.includes(input[input.length-1].toLowerCase())){
                 handleUse(input[1],input[input.length-1])
             }
@@ -73,49 +73,46 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveC
         if (["inspect", "attack", "talk", "inventory","take"].includes(input[0].toLowerCase()) && itemNames.includes(input[input.length-1].toLowerCase())) {
             let verb = input[0].toLowerCase()
             let item = input[input.length-1]
-            if (verb=="take"){
+            if (verb === "take"){
                 handleTake(item)
             }
-            if (verb=="inspect"){
+            if (verb==="inspect"){
                 handleInspect(item)
             }
-            if (verb=="attack"){
+            if (verb==="attack"){
                 handleAttack(item)
             }
-            if (verb=="talk"){
+            if (verb==="talk"){
                 handleTalk(item)
             }
-            // return "Acceptable Verb"
-        }
-        else if (["h","i","r","e","help","inventory","return","exit"].includes(input[0].toLowerCase())){
+        } else if (["h","i","r","e","help","inventory","return","exit"].includes(input[0].toLowerCase())) {
             let verb = input[0].toLowerCase()
-            if (verb=="h" || verb=="help"){
-                handleHelp()
-            }
-            if (verb=="i" || verb=="inventory"){
-                handleInventory()
-            }
-            if (verb=="r" || verb=="return"){
-                handleReturn()
-            }
-            if (verb=="e" || verb=="exit"){
-                handleExit()
-            }
-        }
-        else {
-            console.log("bad");
-            console.log(input[1])
-            return "We dont recognize that"
-            
-        }
 
+                if (verb==="h" || verb==="help"){
+                    handleHelp()
+                }
+
+                if (verb==="i" || verb==="inventory"){
+                    handleInventory()
+                }
+
+                if (verb==="r" || verb==="return"){
+                    handleReturn()
+                }
+
+                if (verb==="e" || verb==="exit"){
+                    handleExit()
+                }
+        } else {
+            return "We dont recognize that"
+        }
     e.target.reset()
     }
-
-    function handleUse(usedItem,targetItem){
-        let foundItem = inventory.find(i => i.name.toLowerCase()==usedItem.toLowerCase())
-        let foundTarget = items.find(i => i.name.toLowerCase()==targetItem.toLowerCase())
-        if (foundItem.id == foundTarget.catalyst_item){
+    //Function handles the "Use" verb on an Item
+    function handleUse(usedItem,targetItem) {
+        let foundItem = inventory.find(i => i.name.toLowerCase()===usedItem.toLowerCase())
+        let foundTarget = items.find(i => i.name.toLowerCase()===targetItem.toLowerCase())
+        if (foundItem.id === foundTarget.catalyst_item) {
             setDisplayText(foundTarget.catalyst_response)
             setMoveCount((moveCount) => moveCount += 1)
             foundTarget.exit_trigger=true
@@ -126,7 +123,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveC
     }
 
     function handleExit(){
-        if (items.every(i => i.exit_trigger==true)){
+        if (items.every(i => i.exit_trigger===true)){
             setCurrRoom((currRoom) => currRoom +1)
             setMoveCount(0)
         setDisplayText(`You have successfully left the ${roomInfo.name}! Hit 'r' to continue to the next room.`)
@@ -141,7 +138,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveC
     }
     function handleInventory(){
         if (inventory.length >0){
-        let invtext= inventory.map((i) => i.name)
+        let invtext = inventory.map((i) => i.name)
         setDisplayText(invtext.toString())
         console.log(inventory)
         }
@@ -167,46 +164,69 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveC
         E: Type E to exit the room you are currently in, this will only work when you have cleared the room's objectives
         `)
     }
-    function handleTalk(item){
-        let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
+
+    // The function below handles the attack of an item
+    function handleTalk(item) {
+        let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
+
         setTargetedObject(foundItem)
-        if (foundItem.is_talkable=false){
+
+        if (foundItem.is_talkable === false) {
             setDisplayText(`You can't talk to ${foundItem.name}! Sorry!`)
             return `You can't talk to ${foundItem.name}! Sorry!`
         }
-        if (foundItem.is_talkable=true){
-            setDisplayText(`${foundItem.talk_response}`)
-            setMoveCount((moveCount) => moveCount += 1)
-                }
+
+        if (foundItem.is_talkable === true) {
+            setDisplayText(foundItem.talk_response)
+
+            if (foundItem.death_trigger === "attack") {
+                setDeathElement(true)
             }
-    function handleAttack(item){
-        let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
-        setDisplayText(foundItem.attack_response)
-        console.log(foundItem.triggers_on)
-        console.log(foundItem.exit_trigger)
-        if (foundItem.triggers_on=="attack"){
-            foundItem.exit_trigger=true
-            console.log(foundItem.exit_trigger)}
             setMoveCount((moveCount) => moveCount += 1)
+            setScore((score) => score -= 1300)
+        }
     }
+
+    // The function below handles the attack of an item        
+    function handleAttack(item){
+        let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
+
+        setDisplayText(foundItem.attack_response)
+
+        if (foundItem.death_trigger === "attack") {
+            setDeathElement(true)
+            handleDeath()
+        }
+
+        if (foundItem.triggers_on === "attack") {
+            foundItem.exit_trigger=true
+            setMoveCount((moveCount) => moveCount += 1)
+            setScore((score) => score -= 1600)
+            }
+    }
+    
     function handleInspect(item){
-        let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
+        let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
         setTargetedObject(foundItem)
         setDisplayText(foundItem.description)
         setMoveCount((moveCount) => moveCount += 1)
+        setScore((score) => score -= 900)
         console.log(foundItem.triggers_on)
         console.log(foundItem.exit_trigger)
-        if (foundItem.triggers_on=="inspect"){
+        if (foundItem.death_trigger === "inspect") {
+            setDeathElement(true)
+        }
+        if (foundItem.triggers_on === "inspect"){
             foundItem.exit_trigger=true
             console.log(foundItem.exit_trigger)}
         console.log(foundItem.description)
         return foundItem.description
     }
     function handleTake(item){
-        let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
+        let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
         console.log(foundItem)
         console.log(inventory)
-        if (foundItem.is_takeable==0){
+        if (foundItem.is_takeable === 0){
             console.log(`You can't Take the ${foundItem.name}! Sorry!`)
             setDisplayText(`You can't Take the ${foundItem.name}! Sorry!`)
         }
@@ -216,18 +236,40 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom, setMoveC
                 setDisplayText(`You already have the ${foundItem.name}!`)
             }
             else {
-                foundItem.exit_trigger=true
+                foundItem.exit_trigger = true
+                if (foundItem.death_trigger === "take") {
+                    setDeathElement(true)
+                }
                 setInventory([...inventory,foundItem])
                 console.log(`You picked up ${foundItem.name}!`)
                 console.log(inventory)
                 setDisplayText(`You picked up ${foundItem.name}!`)
                 setMoveCount((moveCount) => moveCount += 1)
+                setScore((score) => score -= 1300)
             }
         }
     }
 
+    function handleDeath() {
+        console.log(userDetails);
+        setDeathElement(true)
+        fetch(`http://localhost:9292/user/${userDetails.id}`,{
+        method: "PATCH", 
+        headers: {
+            "Content-Type" : "application/json"
+        },
+        body: JSON.stringify({
+            room_id: currRoom
+            }),
+        })
+        .then((r) => r.json())
+        .then((data) => {
+            console.log(data);
+        })
+    }
+
     return (
-        <div style={style}>
+        <div>
             <form onSubmit={handleSubmit}>
             <label style={{float: "left", fontFamily: 'TerminalFont', color: "#4AF626", fontSize: "8pt" }} >stuck_in_space:\\>></label>    
             <input className="no-outline"style={{background: "black", fontFamily: 'TerminalFont', color: "#4AF626", border: "hidden", float: "left", paddingLeft: "5px", fontSize: "8pt"}} autoFocus onChange={handleChange}></input>

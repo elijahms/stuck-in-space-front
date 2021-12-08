@@ -1,12 +1,9 @@
-import {useState} from 'react'
 import Typewriter from 'typewriter-effect';
 
-
-const DisplayText = ({displayText, setDisplayText}) => {
+const DisplayText = ({displayText}) => {
     
     let style = {
         color: "#4AF626",
-        // border: "1px solid #4AF626",
         marginTop: "1%",
         marginBottom: "1%",
         fontFamily: 'TerminalFont',
