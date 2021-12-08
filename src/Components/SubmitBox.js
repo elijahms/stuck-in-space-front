@@ -10,6 +10,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     const [sub, setSub] = useState(null)
     const [items, setItems] = useState([])
     const [roomInfo, setRoomInfo] = useState([])
+    const [targetedObject, setTargetedObject] = useState(null)
 
 
     useEffect(() => {
@@ -39,13 +40,11 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     function handleChange(e) {
         setSub(e.target.value)
     }
-
     function handleSubmit(e) {
         e.preventDefault()
         let input = sub.split(" ")
         console.log(input);
         // if (targetedObject.talk_choice_1){
-
         // }
         if (["inspect", "attack", "use", "talk", "inventory","take"].includes(input[0].toLowerCase()) && itemNames.includes(input[input.length-1].toLowerCase())) {
             let verb = input[0].toLowerCase()
@@ -81,15 +80,13 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             console.log("bad");
             console.log(input[1])
             e.target.reset()
-            return "We don't recognize that"
+            return "We dont recognize that"
             
         }
     }
-
     function handleReturn(){
         setDisplayText(roomInfo.description)
     }
-
     function handleInventory(){
         if (inventory.length >0){
         let invtext= inventory.map((i) => i.name)
@@ -99,7 +96,6 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             setDisplayText("Your inventory is empty!")
         }
     }
-
     function handleHelp() {
         setDisplayText(`Interact with the world by using commands on objects in it. \n
         Format your messages in the form of a COMMAND OBJECT \n
@@ -117,7 +113,6 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         E: Type E to exit the room you are currently in, this will only work when you have cleared the room's objectives
         `)
     }
-
     function handleTalk(item){
         let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
         setTargetedObject(foundItem)
@@ -129,7 +124,6 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             setDisplayText(`${foundItem.talk_response}`)
                 }
             }
-
     function handleAttack(item){
         let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
         setDisplayText(foundItem.attack_response)
@@ -139,7 +133,6 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             foundItem.exit_trigger=true
             console.log(foundItem.exit_trigger)}
     }
-
     function handleInspect(item){
         let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
         setTargetedObject(foundItem)
@@ -152,30 +145,25 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         console.log(foundItem.description)
         return foundItem.description
     }
-
     function handleTake(item){
         let foundItem = items.find(i => i.name.toLowerCase()==item.toLowerCase())
         console.log(foundItem)
         console.log(inventory)
         if (foundItem.is_takeable==0){
-            setDisplayText(`You can't Take the ${foundItem.name}! Sorry!`)
             console.log(`You can't Take the ${foundItem.name}! Sorry!`)
             return `You can't Take the ${foundItem.name}! Sorry!`
         }
         else {
             if (inventory.includes(foundItem)){
-                setDisplayText(`You already have the ${foundItem.name}!`)
                 console.log(`You already have the ${foundItem.name}!`)
                 return `You already have the ${foundItem.name}!`
             }
             else {
                 foundItem.exit_trigger=true
                 inventory.push(foundItem)
-                setDisplayText(`You picked up ${foundItem.name}!`)
                 console.log(`You picked up ${foundItem.name}!`)
                 console.log(inventory)
                 return `You picked up ${foundItem.name}!`
-
             }
         }
     }
