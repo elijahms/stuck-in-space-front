@@ -27,7 +27,7 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             setItems(data)
             console.log(data);
         })
-    }, [])
+    }, [currRoom])
 
 
     let itemNames = [...items].map((i) => i.name.toLowerCase())
@@ -44,8 +44,24 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
         e.preventDefault()
         let input = sub.split(" ")
         console.log(input);
-        // if (targetedObject.talk_choice_1){
-        // }
+        if (targetedObject){
+            if (targetedObject.talk_choice_1){
+            if (input[0]=="1"){
+                setDisplayText(targetedObject.talk_choice_1)
+            }
+            if (input[0]=="2"){
+                setDisplayText(targetedObject.talk_choice_2)
+            } 
+        }
+        if (targetedObject.inspect_choice_1){
+            if (input[0]=="1"){
+                setDisplayText(targetedObject.inspect_choice_1)
+            }
+            if (input[0]=="2"){
+                setDisplayText(targetedObject.inspect_choice_2)
+            } 
+        }
+    e.target.reset()}
         if (["inspect", "attack", "use", "talk", "inventory","take"].includes(input[0].toLowerCase()) && itemNames.includes(input[input.length-1].toLowerCase())) {
             let verb = input[0].toLowerCase()
             let item = input[input.length-1]
@@ -75,6 +91,10 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             if (verb=="r" || verb=="return"){
                 handleReturn()
             }
+            if (verb=="e" || verb=="exit"){
+                handleExit()
+            }
+            e.target.reset()
         }
         else {
             console.log("bad");
@@ -84,6 +104,17 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             
         }
     }
+
+    function handleExit(){
+        if (items.every(i => i.exit_trigger==true)){
+            setCurrRoom((currRoom) => currRoom +1)
+        setDisplayText(`You have successfully left the ${roomInfo.name}! Hit 'r' to continue to the next room.`)
+        console.log(currRoom)}
+        else {
+            setDisplayText(`You have not yet met the requirements to exit the ${roomInfo.name}. There's some more to do! Hit 'r' to return to the room's description, and 'h' if you need a refresher on your options.`)
+        }
+    }
+
     function handleReturn(){
         setDisplayText(roomInfo.description)
     }
@@ -167,7 +198,6 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
             }
         }
     }
-
     return (
         <div style={style}>
             <form onSubmit={handleSubmit}>

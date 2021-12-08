@@ -14,7 +14,9 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
     }
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(form);
+        if (form.username.length < 3 || form.email === null) {
+            alert("please add a valid information")
+        } else {
         // Add fetch post here that appends username
         fetch(`http://localhost:9292/newuser`, {
             method: "POST",
@@ -30,6 +32,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
         setCollectedUser(true)
         setCurrRoom(1)
         setDisplayText(`Welcome ${form.username}, you've been abducted!`)
+        }
     }
 
     const [form, setForm] = useState({
@@ -62,8 +65,8 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
                     />
             </div>
             <form onSubmit={handleSubmit}>
-                <input style={formStyle} onChange={handleChange} name="username" placeholder="username"></input>
-                <input style={formStyle} onChange={handleChange} name="email" placeholder="email"></input>
+                <input style={formStyle} onChange={handleChange} name="username" placeholder="username" type="text"></input>
+                <input style={formStyle} onChange={handleChange} name="email" placeholder="email" type="email"></input>
                 <button style={formStyle}>Play</button>
             </form>
         </div>
