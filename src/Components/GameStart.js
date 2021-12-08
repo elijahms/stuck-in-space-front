@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import { StepDescription } from 'semantic-ui-react';
 import Typewriter from 'typewriter-effect';
+import { Form, Input } from 'semantic-ui-react'
 
 const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText}) => {
     
@@ -15,7 +16,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
     function handleSubmit(e) {
         e.preventDefault()
         if (form.username.length < 3 || form.email === null) {
-            alert("please add a valid information")
+            setDisplayText("please add a valid information")
         } else {
         // Add fetch post here that appends username
         fetch(`http://localhost:9292/newuser`, {
@@ -36,7 +37,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
     }
 
     const [form, setForm] = useState({
-        username: null,
+        username: 0,
         email: null
     })
 
@@ -49,7 +50,8 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
         width: "100%", 
         background: "black", 
         fontFamily: 'TerminalFont', 
-        color: "#4AF626"
+        color: "#4AF626",
+        border: "hidden"
     }
     
     return (
@@ -65,9 +67,9 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText})
                     />
             </div>
             <form onSubmit={handleSubmit}>
-                <input style={formStyle} onChange={handleChange} name="username" placeholder="username" type="text"></input>
-                <input style={formStyle} onChange={handleChange} name="email" placeholder="email" type="email"></input>
-                <button style={formStyle}>Play</button>
+                <input className="no-outline" style={formStyle} onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
+                <input className="no-outline" style={formStyle} onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
+                <button className="play-button" style={formStyle}>Play</button>
             </form>
         </div>
     )

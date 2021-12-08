@@ -224,7 +224,8 @@ const SubmitBox = ({displayText, setDisplayText, setCurrRoom, currRoom}) => {
     return (
         <div style={style}>
             <form onSubmit={handleSubmit}>
-            <input style={{width: "90%", background: "black", fontFamily: 'TerminalFont', color: "#4AF626"}} placeholder="Elijah:\\Room_One>>" onChange={handleChange}></input>
+            <label style={{float: "left", fontFamily: 'TerminalFont', color: "#4AF626", fontSize: "8pt" }} >stuck_in_space:\\>></label>    
+            <input className="no-outline"style={{background: "black", fontFamily: 'TerminalFont', color: "#4AF626", border: "hidden", float: "left", paddingLeft: "5px", fontSize: "8pt"}} autoFocus onChange={handleChange}></input>
             </form>
         </div>
     )

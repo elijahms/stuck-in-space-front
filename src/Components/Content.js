@@ -13,7 +13,7 @@ const Content = () => {
     let style = {
         width: "50%",
         height: "500px",
-        border: "2px solid white",
+         border: "2px solid white",
         margin: "0 auto",
         padding: "1%",
         dispay: "block",
@@ -30,7 +30,8 @@ const Content = () => {
         color: "#4AF626",
         fontFamily: 'TerminalFont',
         border: "1px solid white",
-        fontSize: "1em"
+        fontSize: "1em",
+        borderRight: "2px solid white"
     }
     
     const [collectedUser, setCollectedUser] = useState(false)
