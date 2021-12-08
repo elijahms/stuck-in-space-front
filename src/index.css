@@ -25,3 +25,11 @@ src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
 ::selection {
   background: #4AF626 /* WebKit/Blink Browsers */
 }
+
+.no-outline:focus {
+  outline: none;
+}
+
+.play-button:hover {
+  color: #229c09 !important
+}

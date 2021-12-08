@@ -6,7 +6,6 @@ const TimeInGame = () => {
     const [minute, setMinute] = useState(0)
     
     useEffect(() => {
-        // let timer = setInterval(() => setSecond(second + 1), 1000)
         let secondInt = 0
         let seconds = setInterval(() => {
             setSecond(secondInt)
@@ -16,6 +15,7 @@ const TimeInGame = () => {
                return secondInt = 0
             }}
         , 1000)
+        
         let minutes = setInterval(() => setMinute((minute) => minute += 1), 60000)
 
         return () => {
