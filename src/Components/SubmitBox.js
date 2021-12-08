@@ -34,7 +34,6 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(userDetails);
         let input = sub.split(" ")
         if (roomInfo.death_threshold === moveCount) {
             setDisplayText(roomInfo.death_threshold_met)
@@ -44,22 +43,36 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             if (targetedObject.talk_choice_1){
             if (input[0] == "1"){
                 setDisplayText(targetedObject.talk_choice_1)
-            }
-            if (input[0] == "2"){
+                e.target.reset()
+                if (targetedObject.death_trigger === 1) {
+                    handleDeath()
+                }
+            } else if (input[0] == "2"){
                 setDisplayText(targetedObject.talk_choice_2)
-            } 
+                e.target.reset()
+                if (targetedObject.death_trigger === 2) {
+                    handleDeath()
+                }
+            } else {
+                setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.description}`)
+            }
         }
         if (targetedObject.inspect_choice_1){
             if (input[0] == "1"){
                 setDisplayText(targetedObject.inspect_choice_1)
+                e.target.reset()
                 if (targetedObject.death_trigger === 1) {
-                    setDeathElement(true)
                     handleDeath()
                 }
-            }
-            if (input[0] == "2"){
+            } else if (input[0] == "2"){
                 setDisplayText(targetedObject.inspect_choice_2)
-            } 
+                e.target.reset()
+                if (targetedObject.death_trigger === 2) {
+                    handleDeath()
+                }
+            } else {
+                setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.description}`)
+            }
         }}
         if (input[0].toLowerCase() === "use" && input.length >= 3){
             let invtext = inventory.map((i) => i.name.toLowerCase())
@@ -103,8 +116,6 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
                 if (verb==="e" || verb==="exit"){
                     handleExit()
                 }
-        } else {
-            return "We dont recognize that"
         }
     e.target.reset()
     }
@@ -194,14 +205,13 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         setDisplayText(foundItem.attack_response)
 
         if (foundItem.death_trigger === "attack") {
-            setDeathElement(true)
             handleDeath()
         }
 
         if (foundItem.triggers_on === "attack") {
             foundItem.exit_trigger=true
             setMoveCount((moveCount) => moveCount += 1)
-            setScore((score) => score -= 1600)
+            setScore((score) => score -= 100)
             }
     }
     
@@ -210,7 +220,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         setTargetedObject(foundItem)
         setDisplayText(foundItem.description)
         setMoveCount((moveCount) => moveCount += 1)
-        setScore((score) => score -= 900)
+        setScore((score) => score -= 100)
         console.log(foundItem.triggers_on)
         console.log(foundItem.exit_trigger)
         if (foundItem.death_trigger === "inspect") {
