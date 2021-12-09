@@ -5,9 +5,10 @@ import Typewriter from 'typewriter-effect'
 const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, setUserDetails}) => {
 
     const [form, setForm] = useState({
-        username: 0,
+        username: "0",
         email: null
     })
+    const [checkUser, setCheckUser] = useState([])
 
     let formStyle = {
         width: "100%", 
@@ -23,15 +24,15 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
         fetch(`http://localhost:9292/allusers`)
         .then((r) => r.json())
         .then((data) => {
-            checkUser = data;
-            console.log(checkUser);
-            console.log(form.username);
+            setCheckUser(data);
         })
         if (form.username.length < 3 || form.email === null) {
             setDisplayText("please add a valid information")
+            e.target.reset()
         } else {
-            if (checkUser.includes(form.username)) {
-                alert("sneaky bastard")
+            if ([...checkUser].includes(form.username)) {
+                setDisplayText(`${form.username} already exists!`)
+                e.target.reset()
             } else {
                 fetch(`http://localhost:9292/newuser`, {
                     method: "POST",
@@ -48,8 +49,9 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                 setCollectedUser(true)
                 setCurrRoom(1)
                 setDisplayText(`Welcome ${form.username}, you've been abducted!`)
+                e.target.reset()
                 }
-        }
+            }  
     }
 
     function handleChange(e) {
