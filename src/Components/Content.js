@@ -18,33 +18,32 @@ const Content = () => {
     const [moveCount, setMoveCount] = useState(0)
     const [currRoom, setCurrRoom] = useState(0)
     const [deathElement, setDeathElement] = useState(false)
-    const [displayText, setDisplayText] = useState("Enter the realm of OUTER SPACE and attempt to make your way out, beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships!")
+    const [displayText, setDisplayText] = useState("Enter the realm of OUTER SPACE and attempt to make your way out, beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships! \n \n Please Enter a Username and Email" )
     
     return (
         <div className="content-container">
-            <div className="grid">
                 <Grid container columns={3} stackable>
-                <Grid.Column >
+                <Grid.Column className="banner-1">
                     <Score
                         score={score} 
                     />
-                    </Grid.Column>
-                    <Grid.Column >
+                    </Grid.Column >
+                    <Grid.Column className="banner-2">
                     <TimeInGame 
                         collectedUser={collectedUser}
                         minute={minute} second={second}
                         setMinute={setMinute}
-                        setSecond={setSecond} 
+                        setSecond={setSecond}
+                        deathElement={deathElement} 
                     />
                     </Grid.Column>
-                    <Grid.Column >
+                    <Grid.Column className="banner-3">
                     <TimeInRoom 
                         currRoom={currRoom}
                         moveCount={moveCount}
                     />
                     </Grid.Column>
                 </Grid>
-            </div>
             {deathElement ? 
             <Death 
                 displayText={displayText}

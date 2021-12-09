@@ -1,6 +1,6 @@
 import {useEffect} from 'react'
 
-const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond}) => {
+const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond, deathElement}) => {
 
     useEffect(() => {
         if (collectedUser) {
@@ -30,7 +30,7 @@ const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond}) => {
     }, [collectedUser])
     
     return (
-        <div className="banner-details">
+        <div>
             <p>Time Playing: {minute}:{second}</p>
         </div>
     )

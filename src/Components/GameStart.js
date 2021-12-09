@@ -53,16 +53,16 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
     }
 
     return (
-        <div>
+        <div className="game-div">
                 <Typewriter
                     options={{
                         strings: displayText,
                         autoStart: true,
                         wrapperClassName: "game-start",
-                        delay: 40
+                        delay: 30
                     }}/>
             <form onSubmit={handleSubmit}>
-                <input className="no-outline" onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
+                <input style={{paddingTop: "20px"}} className="no-outline" onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
                 <input className="no-outline" onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
                 <button className="play-button">Play</button>
             </form>

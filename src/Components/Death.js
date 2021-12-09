@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react'
+import Typewriter from 'typewriter-effect';
 
 const Death = ({displayText, score, userDetails}) => {
     
@@ -16,7 +17,14 @@ const Death = ({displayText, score, userDetails}) => {
     
     return (
         <div>
-            <p>{displayText}</p>
+            <Typewriter
+                options={{
+                    strings: displayText,
+                    autoStart: true,
+                    wrapperClassName: "game-start",
+                    delay: 20
+                }}
+                />
             <br />
             <p>Your Score: {userDetails.name}---{score}</p>
             <h3>Leaderboard:</h3>

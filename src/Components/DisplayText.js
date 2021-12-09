@@ -3,13 +3,13 @@ import Typewriter from 'typewriter-effect';
 const DisplayText = ({displayText}) => {
     
     return (
-        <div>
+        <div className="main-display">
             <Typewriter
                 options={{
                     strings: displayText,
                     autoStart: true,
                     wrapperClassName: "game-start",
-                    delay: 42
+                    delay: 35
                 }}
                 />
         </div>

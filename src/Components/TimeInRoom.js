@@ -2,7 +2,7 @@
 const TimeInRoom = ({moveCount}) => {
 
     return (
-        <div className='banner-details'>
+        <div>
             <p>Moves Taken: {moveCount}</p>
         </div>
     )

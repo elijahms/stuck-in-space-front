@@ -1,11 +1,9 @@
 
 const Score = ({score}) => {
-
     return (
-        <div className="banner-details">
+        <div >
             <p>Score: {score}</p>
         </div>
     )
 }
-
 export default Score

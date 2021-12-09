@@ -2,65 +2,79 @@ body {
   background-color: black;
   height: 100vh;
   font-family: 'TerminalFont';
-}
+  color: #4AF626;
+  width: 100vw;
 
+}
+::selection {
+  background: #4AF626
+}
 @font-face {
   font-family: 'TerminalFont';
   src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
 }
-
 .header-file {
   text-align: center;
-  font-family: "TerminalFont";
-  color: white;
+  color: white !important;
 }
 
-.banner-details {
+
+.banner-1 {
   display: inline-grid;
   justify-content: center;
   align-items: center;
-  margin: 2%;
-  padding: 2px;
+  margin: 1%;
   color: #4AF626;
-  width: 25%;
-  border: 1px solid white;
-  font-size: "1em";
-  float: left;
+  width: 30%;
+  font-size: 75%;
+  margin-bottom: 3%;
+  outline-color: white;
+  outline-style: ridge ;
+  /* float: left; */
 }
+.banner-2 {
+  display: inline-grid;
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  color: #4AF626;
+  width: 30%;
+  font-size: 75%;
+  margin-bottom: 3%;
+  outline-color: white;
+  outline-style: ridge ;
+}
+.banner-3 {
+  display: inline-grid;
+  justify-content: center;
+  align-items: center;
+  margin: 1%;
+  margin-bottom: 3%;
+  color: #4AF626;
+  width: 30%;
+  font-size: 75%;
+  outline-color: white;
+  outline-style: ridge ;
+}
+
 
 .content-container {
   width: 50vw;
-  /* height: 60vh; */
   border: 2px solid white;
   margin: 0 auto;
+  justify-content: center;
   padding: 1%;
   overflow: auto;
   white-space: pre-line;
-  color: #4AF626;
   font-family: 'TerminalFont';
 }
-
 .game-start {
-  color: #4AF626;
-  height: 50vh;
-  margin-top: 1%;
-  margin-bottom: 1%;
-  font-family: 'TerminalFont';
-  float: left;
   white-space: pre-line;
-  border: 2px solid white;
 }
 
-::selection {
-  background: #4AF626
-}
-
-.no-outline:focus {
-  outline: none;
-}
-
-.play-button:hover {
-  color: #229c09 !important
+.game-div {
+  min-height: 300px;
+  position: relative;
 }
 
 .no-outline {
@@ -71,26 +85,42 @@ body {
   border: hidden;
   outline: none;
 }
-
+.no-outline:focus {
+  outline: none;
+}
 .play-button {
   width: 100%;
   background: black;
   font-family: 'TerminalFont'; 
   color: #4AF626;
   border: hidden;
+  outline: none;
+  position: absolute;
+  bottom: 0px;
 }
-
+.play-button:hover {
+  color: #229c09 !important
+}
 .terminal-submit {
   background: black;
   font-family: 'TerminalFont'; 
   color: #4AF626;
   border: hidden;
   outline: none;
-  size: 8pt;
-  padding-left: 5px;
+  float: left;
+  width: 62%
+
+}
+.terminal-text {
+  background: black;
+  font-family: 'TerminalFont'; 
+  color: #4AF626;
+  border: hidden;
+  outline: none;
+  padding-right: 1%;
   float: left;
 }
 
-.grid {
-  background: black;
+.main-display{
+  min-height: 250px;
 }

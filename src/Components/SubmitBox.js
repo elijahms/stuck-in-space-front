@@ -308,7 +308,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <label className="terminal-submit">stuck_in_space:\\</label>    
+                <label className="terminal-text">stuck_in_space:\\</label>    
                 <input className="terminal-submit" autoFocus onChange={handleChange}></input>
             </form>
         </div>
