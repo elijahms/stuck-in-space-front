@@ -1,19 +1,8 @@
 
-const TimeInRoom = ({currRoom, moveCount}) => {
-    let gridStyle = {
-        display: "inline-grid",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: "2%",
-        padding: "2px",
-        color: "#4AF626",
-        width: "33%",
-        fontFamily: 'TerminalFont',
-        border: "1px solid white",
-        fontSize: "1em",
-    }
+const TimeInRoom = ({moveCount}) => {
+
     return (
-        <div style={gridStyle}>
+        <div className='banner-details'>
             <p>Moves Taken: {moveCount}</p>
         </div>
     )

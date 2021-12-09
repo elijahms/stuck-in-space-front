@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
 
 const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails, minute, second}) => {
-    // Stlying for the Submit Box
 
-    //State of the Submit Box
+    //State and Variables of the Submit Box
     const [sub, setSub] = useState(null)
     const [items, setItems] = useState([])
     const [roomInfo, setRoomInfo] = useState([])
     const [targetedObject, setTargetedObject] = useState(null)
     const [inventory, setInventory] = useState([])
+    let itemNames = [...items].map((i) => i.name.toLowerCase())
+    function handleChange(e) {
+        setSub(e.target.value)
+    }
 
+    //Use-effect loads the rooms and items
     useEffect(() => {
         fetch(`http://localhost:9292/room/${currRoom}`)
         .then((r) => r.json())
@@ -25,13 +29,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         })
     }, [currRoom])
 
-    let itemNames = [...items].map((i) => i.name.toLowerCase())
-    
-    //Handles the text in the Submit Box
-    function handleChange(e) {
-        setSub(e.target.value)
-    }
-
+    //handleSubmit is the brunt of the app
     function handleSubmit(e) {
         e.preventDefault()
         let input = sub.split(" ")
@@ -121,6 +119,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         }
     e.target.reset()
     }
+
     //Function handles the "Use" verb on an Item
     function handleUse(usedItem,targetItem) {
         let foundItem = inventory.find(i => i.name.toLowerCase()===usedItem.toLowerCase())
@@ -150,6 +149,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     function handleReturn(){
         setDisplayText(roomInfo.description)
     }
+
     function handleInventory(){
         if (inventory.length >0){
         let invtext = inventory.map((i) => i.name)
@@ -161,6 +161,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             console.log(inventory)
         }
     }
+
     function handleHelp() {
         setDisplayText(`Interact with the world by using commands on objects in it. \n
         Format your messages in the form of a COMMAND OBJECT \n
@@ -179,7 +180,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         `)
     }
 
-    // The function below handles the attack of an item
+    // The function below handles the speaking-to of an item
     function handleTalk(item) {
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
 
@@ -287,8 +288,8 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     return (
         <div>
             <form onSubmit={handleSubmit}>
-            <label style={{float: "left", fontFamily: 'TerminalFont', color: "#4AF626", fontSize: "8pt" }} >stuck_in_space:\\>></label>    
-            <input className="no-outline"style={{background: "black", fontFamily: 'TerminalFont', color: "#4AF626", border: "hidden", float: "left", paddingLeft: "5px", fontSize: "8pt"}} autoFocus onChange={handleChange}></input>
+            <label className="terminal-submit">stuck_in_space:\\>></label>    
+            <input className="terminal-submit" autoFocus onChange={handleChange}></input>
             </form>
         </div>
     )

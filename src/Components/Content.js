@@ -10,17 +10,6 @@ import { Grid } from 'semantic-ui-react'
 
 const Content = () => {
     
-    let style = {
-        width: "70vw",
-        height: "50vh",
-        border: "2px solid white",
-        margin: "0 auto",
-        padding: "1%",
-        width: "33%",
-        overflow: "auto"
-
-    }
-    
     const [collectedUser, setCollectedUser] = useState(false)
     const [score, setScore] = useState(10000)
     const [second, setSecond] = useState("00")
@@ -32,7 +21,7 @@ const Content = () => {
     const [displayText, setDisplayText] = useState("Enter the realm of OUTER SPACE and attempt to make your way out, beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships!")
     
     return (
-        <div style={style}>
+        <div className="content-container">
             <Grid container columns={3} stackable >
             <Grid.Column >
                 <Score

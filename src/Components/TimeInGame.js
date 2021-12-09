@@ -1,20 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 
 const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond}) => {
-
-    let gridStyle = {
-        display: "inline-grid",
-        justifyContent: "center",
-        alignItems: "center",
-        margin: "1%",
-        padding: "1%",
-        color: "#4AF626",
-        width: "33%",
-        fontFamily: 'TerminalFont',
-        border: "1px solid white",
-        fontSize: "1em",
-        borderRight: "2px solid white"
-    }
 
     useEffect(() => {
         if (collectedUser) {
@@ -22,7 +8,6 @@ const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond}) => {
             
             let timeInterval = setInterval(setTime, 1000);
             function setTime() {
-
                 ++totalSeconds;
                 setSecond(pad(totalSeconds % 60));
                 setMinute(pad(parseInt(totalSeconds / 60)));
@@ -45,7 +30,7 @@ const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond}) => {
     }, [collectedUser])
     
     return (
-        <div style={gridStyle}>
+        <div className="banner-details">
             <p>Time Playing: {minute}:{second}</p>
         </div>
     )

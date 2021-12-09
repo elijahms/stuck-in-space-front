@@ -8,15 +8,12 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
         username: "0",
         email: null
     })
-    const [checkUser, setCheckUser] = useState([])
 
-    let formStyle = {
-        width: "100%", 
-        background: "black", 
-        fontFamily: 'TerminalFont', 
-        color: "#4AF626",
-        border: "hidden"
+    function handleChange(e) {
+        setForm({...form, [e.target.name]: e.target.value})
     }
+
+    const [checkUser, setCheckUser] = useState([])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -53,26 +50,20 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                 }
             }  
     }
-
-    function handleChange(e) {
-        setForm({...form, [e.target.name]: e.target.value})
-    }
     
     return (
         <div>
-            <div style={{height: "20vh"}}>
                 <Typewriter
                     options={{
                         strings: displayText,
                         autoStart: true,
-                        wrapperClassName: "gameStart",
-                        delay: 42
+                        wrapperClassName: "game-start",
+                        delay: 40
                     }}/>
-            </div>
             <form onSubmit={handleSubmit}>
-                <input className="no-outline" style={formStyle} onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
-                <input className="no-outline" style={formStyle} onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
-                <button className="play-button" style={formStyle}>Play</button>
+                <input className="no-outline" onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
+                <input className="no-outline" onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
+                <button className="play-button">Play</button>
             </form>
         </div>
     )

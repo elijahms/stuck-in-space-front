@@ -1,20 +1,45 @@
 body {
   background-color: black;
-  color: white;
-  height: 100vh
+  height: 100vh;
+  font-family: 'TerminalFont';
 }
-
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-} */
 
 @font-face {
   font-family: 'TerminalFont';
-src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
+  src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
 }
 
-.gameStart {
+.header-file {
+  text-align: center;
+  font-family: "TerminalFont";
+  color: white;
+}
+
+.banner-details {
+  display: inline-grid;
+  justify-content: center;
+  align-items: center;
+  margin: 2%;
+  padding: 2px;
+  color: #4AF626;
+  width: 25%;
+  border: "1px solid white";
+  font-size: "1em";
+}
+
+.content-container {
+  width: 50vw;
+  height: 60vh;
+  border: 2px solid white;
+  margin: 0 auto;
+  padding: 1%;
+  overflow: auto;
+  white-space: pre-line;
+  color: #4AF626;
+  font-family: 'TerminalFont';
+}
+
+.game-start {
   color: #4AF626;
   height: 50vh;
   margin-top: 1%;
@@ -33,4 +58,32 @@ src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
 
 .play-button:hover {
   color: #229c09 !important
+}
+
+.no-outline {
+  width: 100%;
+  background: black;
+  font-family: 'TerminalFont'; 
+  color: #4AF626;
+  border: hidden;
+  outline: none;
+}
+
+.play-button {
+  width: 100%;
+  background: black;
+  font-family: 'TerminalFont'; 
+  color: #4AF626;
+  border: hidden;
+}
+
+.terminal-submit {
+  background: black;
+  font-family: 'TerminalFont'; 
+  color: #4AF626;
+  border: hidden;
+  outline: none;
+  size: 8pt;
+  padding-left: 5px;
+  float: left;
 }
