@@ -36,8 +36,10 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         e.preventDefault()
         let input = sub.split(" ")
         if (roomInfo.death_threshold === moveCount) {
-            setDisplayText(roomInfo.death_threshold_met)
-            handleDeath()
+            if (items.every(i => i.exit_trigger!=true)) {
+                setDisplayText(roomInfo.death_threshold_met)
+                handleDeath()
+            }
         }
         if (targetedObject){
             if (targetedObject.talk_choice_1){
@@ -136,6 +138,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     function handleExit(){
         if (items.every(i => i.exit_trigger===true)){
             setCurrRoom((currRoom) => currRoom +1)
+            setScore((score) => score += 1000)
             setMoveCount(0)
         setDisplayText(`You have successfully left the ${roomInfo.name}! Hit 'r' to continue to the next room.`)
         console.log(currRoom)}
@@ -269,7 +272,8 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             "Content-Type" : "application/json"
         },
         body: JSON.stringify({
-            room_id: currRoom
+            room_id: currRoom,
+            score: score
             }),
         })
         .then((r) => r.json())

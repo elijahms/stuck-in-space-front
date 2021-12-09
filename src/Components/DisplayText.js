@@ -9,6 +9,7 @@ const DisplayText = ({displayText}) => {
         fontFamily: 'TerminalFont',
         overflow: "auto",
         height: "90%",
+        whiteSpace: "pre-line"
     }
     
     return (

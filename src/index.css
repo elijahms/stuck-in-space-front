@@ -19,7 +19,8 @@ src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
   height: 70%;
   margin-top: 1%;
   margin-bottom: 1%;
-  font-family: 'TerminalFont'
+  font-family: 'TerminalFont';
+  white-space: "pre-line"
 }
 
 ::selection {
