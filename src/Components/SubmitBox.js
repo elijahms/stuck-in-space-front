@@ -54,7 +54,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
                     handleDeath()
                 }
             } else {
-                setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.description}`)
+                setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.talk_response}`)
             }
         }
         if (targetedObject.inspect_choice_1){
@@ -194,8 +194,8 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         if (foundItem.is_talkable === true) {
             setDisplayText(foundItem.talk_response)
 
-            if (foundItem.death_trigger === "attack") {
-                setDeathElement(true)
+            if (foundItem.death_trigger === "talk") {
+                handleDeath()
             }
             setMoveCount((moveCount) => moveCount += 1)
             setScore((score) => score -= 1300)
@@ -228,7 +228,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         console.log(foundItem.triggers_on)
         console.log(foundItem.exit_trigger)
         if (foundItem.death_trigger === "inspect") {
-            setDeathElement(true)
+            handleDeath()
         }
         if (foundItem.triggers_on === "inspect"){
             foundItem.exit_trigger=true
@@ -240,7 +240,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
         console.log(foundItem)
         console.log(inventory)
-        if (foundItem.is_takeable === 0){
+        if (foundItem.is_takeable === false){
             console.log(`You can't Take the ${foundItem.name}! Sorry!`)
             setDisplayText(`You can't Take the ${foundItem.name}! Sorry!`)
         }
@@ -252,7 +252,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             else {
                 foundItem.exit_trigger = true
                 if (foundItem.death_trigger === "take") {
-                    setDeathElement(true)
+                    handleDeath()
                 }
                 setInventory([...inventory,foundItem])
                 console.log(`You picked up ${foundItem.name}!`)
