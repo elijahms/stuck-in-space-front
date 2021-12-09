@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Typewriter from 'typewriter-effect'
 
 
@@ -14,23 +14,25 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
     }
 
     const [checkUser, setCheckUser] = useState([])
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        let checkUser = []
+    useEffect(() => {
         fetch(`http://localhost:9292/allusers`)
         .then((r) => r.json())
         .then((data) => {
             setCheckUser(data);
+            console.log(checkUser);
+            console.log(form.username);
         })
-        if (form.username.length < 3 || form.email === null) {
+    }, [])
+
+    function handleSubmit(e) {
+        e.preventDefault()
+            if (form.username.length < 3 || form.email === null) {
             setDisplayText("please add a valid information")
             e.target.reset()
+        } else if ([...checkUser].includes(form.username)) {
+            setDisplayText(`${form.username} already exists!`)
+            e.target.reset()
         } else {
-            if ([...checkUser].includes(form.username)) {
-                setDisplayText(`${form.username} already exists!`)
-                e.target.reset()
-            } else {
                 fetch(`http://localhost:9292/newuser`, {
                     method: "POST",
                     headers: {
@@ -47,10 +49,9 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                 setCurrRoom(1)
                 setDisplayText(`Welcome ${form.username}, you've been abducted!`)
                 e.target.reset()
-                }
-            }  
+                }  
     }
-    
+
     return (
         <div>
                 <Typewriter
