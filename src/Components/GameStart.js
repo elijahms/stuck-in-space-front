@@ -27,10 +27,10 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
     function handleSubmit(e) {
         e.preventDefault()
             if (form.username.length < 3 || form.email === null) {
-            setDisplayText("please add a valid information")
+            setDisplayText("Please enter a valid username and email.")
             e.target.reset()
         } else if ([...checkUser].includes(form.username)) {
-            setDisplayText(`${form.username} already exists!`)
+            setDisplayText(`${form.username} is a taken username! Please select another. \n \n May we suggest:\n \n ${form.username}69\n ${form.username}420\n xX${form.username}Xx\n the_real_${form.username}`)
             e.target.reset()
         } else {
                 fetch(`http://localhost:9292/newuser`, {
