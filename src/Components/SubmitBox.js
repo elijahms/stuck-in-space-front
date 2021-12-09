@@ -44,8 +44,8 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         //         handleDeath()
         //     }
         // }
-        if (input === "admin") {
-            setCurrRoom((currRoom) += 1)
+        if (currRoom === 4 && items.every(i => i.exit_trigger===true)) {
+            triggerWin()
         }
         if (targetedObject){
             if (targetedObject.talk_choice_1){
@@ -143,6 +143,11 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         else {
             setDisplayText(`Using ${foundItem.name} on ${foundTarget.name} won't have any effect!`)
         }
+    }
+
+    function triggerWin() {
+        setDisplayText("You Wonnnn")
+        setDeathElement(true)
     }
 
     function handleExit(){
@@ -282,7 +287,6 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     }
 
     function handleDeath() {
-        console.log(userDetails);
         setDeathElement(true)
         fetch(`http://localhost:9292/user/${userDetails.id}`,{
         method: "PATCH", 
@@ -298,7 +302,6 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         })
         .then((r) => r.json())
         .then((data) => {
-            console.log(data);
         })
     }
 

@@ -48,6 +48,8 @@ const Content = () => {
             {deathElement ? 
             <Death 
                 displayText={displayText}
+                score={score}
+                userDetails={userDetails}
             /> 
             : 
             <div>
