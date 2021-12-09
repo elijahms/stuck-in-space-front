@@ -8,6 +8,7 @@ const Score = ({score}) => {
         margin: "1%",
         padding: "1%",
         color: "#4AF626",
+        width: "33%",
         fontFamily: 'TerminalFont',
         border: "1px solid white",
         fontSize: "1em",

@@ -60,7 +60,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
     
     return (
         <div>
-            <div style={{height: "280px"}}>
+            <div style={{height: "20vh"}}>
                 <Typewriter
                     options={{
                         strings: displayText,

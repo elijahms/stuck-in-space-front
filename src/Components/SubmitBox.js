@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails}) => {
+const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails, minute, second}) => {
     // Stlying for the Submit Box
 
     //State of the Submit Box
@@ -273,7 +273,9 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         },
         body: JSON.stringify({
             room_id: currRoom,
-            score: score
+            score: score,
+            minutes_in_game: minute,
+            seconds_in_game: second
             }),
         })
         .then((r) => r.json())

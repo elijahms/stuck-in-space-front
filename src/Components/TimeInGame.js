@@ -1,33 +1,51 @@
 import React, {useEffect, useState} from 'react'
 
-const TimeInGame = () => {
-  
-    const [second, setSecond] = useState(0.0)
-    const [minute, setMinute] = useState(0)
-    
-    useEffect(() => {
-        let secondInt = 0
-        let seconds = setInterval(() => {
-            setSecond(secondInt)
-            if (secondInt <= 58) {
-                return secondInt += 1
-            } else {
-               return secondInt = 0
-            }}
-        , 1000)
-        
-        let minutes = setInterval(() => setMinute((minute) => minute += 1), 60000)
+const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond}) => {
 
-        return () => {
-            seconds.clearInterval()
-            minutes.clearInterval()
+    let gridStyle = {
+        display: "inline-grid",
+        justifyContent: "center",
+        alignItems: "center",
+        margin: "1%",
+        padding: "1%",
+        color: "#4AF626",
+        width: "33%",
+        fontFamily: 'TerminalFont',
+        border: "1px solid white",
+        fontSize: "1em",
+        borderRight: "2px solid white"
+    }
+
+    useEffect(() => {
+        if (collectedUser) {
+            let totalSeconds = 0
+            
+            let timeInterval = setInterval(setTime, 1000);
+            function setTime() {
+
+                ++totalSeconds;
+                setSecond(pad(totalSeconds % 60));
+                setMinute(pad(parseInt(totalSeconds / 60)));
+            }
+        
+            function pad(val) {
+                let valString = val + "";
+                if (valString.length < 2) {
+                    return "0" + valString;
+                } else {
+                    return valString;
+                }
+            }
+
+            return () => {
+                timeInterval.clearInterval()
+            }
         }
 
-
-    }, [])
+    }, [collectedUser])
     
     return (
-        <div>
+        <div style={gridStyle}>
             <p>Time Playing: {minute}:{second}</p>
         </div>
     )
