@@ -17,7 +17,6 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
 
     function handleSubmit(e) {
         e.preventDefault()
-        let checkUser = []
         fetch(`http://localhost:9292/allusers`)
         .then((r) => r.json())
         .then((data) => {
