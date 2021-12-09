@@ -23,13 +23,14 @@ body {
   padding: 2px;
   color: #4AF626;
   width: 25%;
-  border: "1px solid white";
+  border: 1px solid white;
   font-size: "1em";
+  float: left;
 }
 
 .content-container {
   width: 50vw;
-  height: 60vh;
+  /* height: 60vh; */
   border: 2px solid white;
   margin: 0 auto;
   padding: 1%;
@@ -45,11 +46,13 @@ body {
   margin-top: 1%;
   margin-bottom: 1%;
   font-family: 'TerminalFont';
-  white-space: "pre-line"
+  float: left;
+  white-space: pre-line;
+  border: 2px solid white;
 }
 
 ::selection {
-  background: #4AF626 /* WebKit/Blink Browsers */
+  background: #4AF626
 }
 
 .no-outline:focus {
@@ -86,4 +89,8 @@ body {
   size: 8pt;
   padding-left: 5px;
   float: left;
+}
+
+.grid {
+  background: black;
 }

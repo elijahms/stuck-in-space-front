@@ -22,27 +22,29 @@ const Content = () => {
     
     return (
         <div className="content-container">
-            <Grid container columns={3} stackable >
-            <Grid.Column >
-                <Score
-                    score={score} 
-                />
-                </Grid.Column>
+            <div className="grid">
+                <Grid container columns={3} stackable>
                 <Grid.Column >
-                <TimeInGame 
-                    collectedUser={collectedUser}
-                    minute={minute} second={second}
-                    setMinute={setMinute}
-                    setSecond={setSecond} 
-                />
-                </Grid.Column>
-                <Grid.Column >
-                <TimeInRoom 
-                    currRoom={currRoom}
-                    moveCount={moveCount}
-                />
-                </Grid.Column>
-            </Grid>
+                    <Score
+                        score={score} 
+                    />
+                    </Grid.Column>
+                    <Grid.Column >
+                    <TimeInGame 
+                        collectedUser={collectedUser}
+                        minute={minute} second={second}
+                        setMinute={setMinute}
+                        setSecond={setSecond} 
+                    />
+                    </Grid.Column>
+                    <Grid.Column >
+                    <TimeInRoom 
+                        currRoom={currRoom}
+                        moveCount={moveCount}
+                    />
+                    </Grid.Column>
+                </Grid>
+            </div>
             {deathElement ? 
             <Death 
                 displayText={displayText}
