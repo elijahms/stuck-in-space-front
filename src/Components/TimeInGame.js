@@ -1,33 +1,36 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect} from 'react'
 
-const TimeInGame = () => {
-  
-    const [second, setSecond] = useState(0.0)
-    const [minute, setMinute] = useState(0)
-    
+const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond}) => {
+
     useEffect(() => {
-        let secondInt = 0
-        let seconds = setInterval(() => {
-            setSecond(secondInt)
-            if (secondInt <= 58) {
-                return secondInt += 1
-            } else {
-               return secondInt = 0
-            }}
-        , 1000)
+        if (collectedUser) {
+            let totalSeconds = 0
+            
+            let timeInterval = setInterval(setTime, 1000);
+            function setTime() {
+                ++totalSeconds;
+                setSecond(pad(totalSeconds % 60));
+                setMinute(pad(parseInt(totalSeconds / 60)));
+            }
         
-        let minutes = setInterval(() => setMinute((minute) => minute += 1), 60000)
+            function pad(val) {
+                let valString = val + "";
+                if (valString.length < 2) {
+                    return "0" + valString;
+                } else {
+                    return valString;
+                }
+            }
 
-        return () => {
-            seconds.clearInterval()
-            minutes.clearInterval()
+            return () => {
+                timeInterval.clearInterval()
+            }
         }
 
-
-    }, [])
+    }, [collectedUser])
     
     return (
-        <div>
+        <div className="banner-details">
             <p>Time Playing: {minute}:{second}</p>
         </div>
     )

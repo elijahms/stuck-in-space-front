@@ -5,17 +5,15 @@ import Typewriter from 'typewriter-effect'
 const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, setUserDetails}) => {
 
     const [form, setForm] = useState({
-        username: 0,
+        username: "0",
         email: null
     })
 
-    let formStyle = {
-        width: "100%", 
-        background: "black", 
-        fontFamily: 'TerminalFont', 
-        color: "#4AF626",
-        border: "hidden"
+    function handleChange(e) {
+        setForm({...form, [e.target.name]: e.target.value})
     }
+
+    const [checkUser, setCheckUser] = useState([])
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -23,15 +21,15 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
         fetch(`http://localhost:9292/allusers`)
         .then((r) => r.json())
         .then((data) => {
-            checkUser = data;
-            console.log(checkUser);
-            console.log(form.username);
+            setCheckUser(data);
         })
         if (form.username.length < 3 || form.email === null) {
             setDisplayText("please add a valid information")
+            e.target.reset()
         } else {
-            if (checkUser.includes(form.username)) {
-                alert("sneaky bastard")
+            if ([...checkUser].includes(form.username)) {
+                setDisplayText(`${form.username} already exists!`)
+                e.target.reset()
             } else {
                 fetch(`http://localhost:9292/newuser`, {
                     method: "POST",
@@ -48,29 +46,24 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                 setCollectedUser(true)
                 setCurrRoom(1)
                 setDisplayText(`Welcome ${form.username}, you've been abducted!`)
+                e.target.reset()
                 }
-        }
-    }
-
-    function handleChange(e) {
-        setForm({...form, [e.target.name]: e.target.value})
+            }  
     }
     
     return (
         <div>
-            <div style={{height: "280px"}}>
                 <Typewriter
                     options={{
                         strings: displayText,
                         autoStart: true,
-                        wrapperClassName: "gameStart",
-                        delay: 42
+                        wrapperClassName: "game-start",
+                        delay: 40
                     }}/>
-            </div>
             <form onSubmit={handleSubmit}>
-                <input className="no-outline" style={formStyle} onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
-                <input className="no-outline" style={formStyle} onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
-                <button className="play-button" style={formStyle}>Play</button>
+                <input className="no-outline" onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
+                <input className="no-outline" onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
+                <button className="play-button">Play</button>
             </form>
         </div>
     )

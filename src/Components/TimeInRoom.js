@@ -1,8 +1,8 @@
 
-const TimeInRoom = ({currRoom, moveCount}) => {
+const TimeInRoom = ({moveCount}) => {
 
     return (
-        <div>
+        <div className='banner-details'>
             <p>Moves Taken: {moveCount}</p>
         </div>
     )

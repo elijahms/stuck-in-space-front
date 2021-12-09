@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react'
 
-const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails}) => {
-    // Stlying for the Submit Box
+const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails, minute, second}) => {
 
-    //State of the Submit Box
+    //State and Variables of the Submit Box
     const [sub, setSub] = useState(null)
     const [items, setItems] = useState([])
     const [roomInfo, setRoomInfo] = useState([])
     const [targetedObject, setTargetedObject] = useState(null)
     const [inventory, setInventory] = useState([])
+    let itemNames = [...items].map((i) => i.name.toLowerCase())
+    function handleChange(e) {
+        setSub(e.target.value)
+    }
 
+    //Use-effect loads the rooms and items
     useEffect(() => {
         fetch(`http://localhost:9292/room/${currRoom}`)
         .then((r) => r.json())
@@ -25,41 +29,50 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         })
     }, [currRoom])
 
-    let itemNames = [...items].map((i) => i.name.toLowerCase())
-    
-    //Handles the text in the Submit Box
-    function handleChange(e) {
-        setSub(e.target.value)
-    }
-
+    //handleSubmit is the brunt of the app
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(userDetails);
         let input = sub.split(" ")
         if (roomInfo.death_threshold === moveCount) {
-            setDisplayText(roomInfo.death_threshold_met)
-            handleDeath()
+            if (items.every(i => i.exit_trigger!=true)) {
+                setDisplayText(roomInfo.death_threshold_met)
+                handleDeath()
+            }
         }
         if (targetedObject){
             if (targetedObject.talk_choice_1){
             if (input[0] == "1"){
                 setDisplayText(targetedObject.talk_choice_1)
-            }
-            if (input[0] == "2"){
+                e.target.reset()
+                if (targetedObject.death_trigger === 1) {
+                    handleDeath()
+                }
+            } else if (input[0] == "2"){
                 setDisplayText(targetedObject.talk_choice_2)
-            } 
+                e.target.reset()
+                if (targetedObject.death_trigger === 2) {
+                    handleDeath()
+                }
+            } else {
+                setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.description}`)
+            }
         }
         if (targetedObject.inspect_choice_1){
             if (input[0] == "1"){
                 setDisplayText(targetedObject.inspect_choice_1)
+                e.target.reset()
                 if (targetedObject.death_trigger === 1) {
-                    setDeathElement(true)
                     handleDeath()
                 }
-            }
-            if (input[0] == "2"){
+            } else if (input[0] == "2"){
                 setDisplayText(targetedObject.inspect_choice_2)
-            } 
+                e.target.reset()
+                if (targetedObject.death_trigger === 2) {
+                    handleDeath()
+                }
+            } else {
+                setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.description}`)
+            }
         }}
         if (input[0].toLowerCase() === "use" && input.length >= 3){
             let invtext = inventory.map((i) => i.name.toLowerCase())
@@ -103,11 +116,10 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
                 if (verb==="e" || verb==="exit"){
                     handleExit()
                 }
-        } else {
-            return "We dont recognize that"
         }
     e.target.reset()
     }
+
     //Function handles the "Use" verb on an Item
     function handleUse(usedItem,targetItem) {
         let foundItem = inventory.find(i => i.name.toLowerCase()===usedItem.toLowerCase())
@@ -125,6 +137,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     function handleExit(){
         if (items.every(i => i.exit_trigger===true)){
             setCurrRoom((currRoom) => currRoom +1)
+            setScore((score) => score += 1000)
             setMoveCount(0)
         setDisplayText(`You have successfully left the ${roomInfo.name}! Hit 'r' to continue to the next room.`)
         console.log(currRoom)}
@@ -136,6 +149,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     function handleReturn(){
         setDisplayText(roomInfo.description)
     }
+
     function handleInventory(){
         if (inventory.length >0){
         let invtext = inventory.map((i) => i.name)
@@ -147,6 +161,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             console.log(inventory)
         }
     }
+
     function handleHelp() {
         setDisplayText(`Interact with the world by using commands on objects in it. \n
         Format your messages in the form of a COMMAND OBJECT \n
@@ -165,7 +180,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         `)
     }
 
-    // The function below handles the attack of an item
+    // The function below handles the speaking-to of an item
     function handleTalk(item) {
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
 
@@ -194,14 +209,13 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         setDisplayText(foundItem.attack_response)
 
         if (foundItem.death_trigger === "attack") {
-            setDeathElement(true)
             handleDeath()
         }
 
         if (foundItem.triggers_on === "attack") {
             foundItem.exit_trigger=true
             setMoveCount((moveCount) => moveCount += 1)
-            setScore((score) => score -= 1600)
+            setScore((score) => score -= 100)
             }
     }
     
@@ -210,7 +224,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         setTargetedObject(foundItem)
         setDisplayText(foundItem.description)
         setMoveCount((moveCount) => moveCount += 1)
-        setScore((score) => score -= 900)
+        setScore((score) => score -= 100)
         console.log(foundItem.triggers_on)
         console.log(foundItem.exit_trigger)
         if (foundItem.death_trigger === "inspect") {
@@ -259,7 +273,10 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             "Content-Type" : "application/json"
         },
         body: JSON.stringify({
-            room_id: currRoom
+            room_id: currRoom,
+            score: score,
+            minutes_in_game: minute,
+            seconds_in_game: second
             }),
         })
         .then((r) => r.json())
@@ -271,8 +288,8 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     return (
         <div>
             <form onSubmit={handleSubmit}>
-            <label style={{float: "left", fontFamily: 'TerminalFont', color: "#4AF626", fontSize: "8pt" }} >stuck_in_space:\\>></label>    
-            <input className="no-outline"style={{background: "black", fontFamily: 'TerminalFont', color: "#4AF626", border: "hidden", float: "left", paddingLeft: "5px", fontSize: "8pt"}} autoFocus onChange={handleChange}></input>
+            <label className="terminal-submit">stuck_in_space:\\>></label>    
+            <input className="terminal-submit" autoFocus onChange={handleChange}></input>
             </form>
         </div>
     )
