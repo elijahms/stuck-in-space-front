@@ -151,7 +151,8 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     }
     //handles exit by iterating the score, and changing the room
     function handleExit(){
-        if (items.every(i => i.exit_trigger===true)){
+        console.log(items)
+        if (items.every(i => i.exit_trigger==true)){
             setCurrRoom((currRoom) => currRoom +1)
             setScore((score) => score += 1000)
             setMoveCount(0)
@@ -211,6 +212,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
 
         if (foundItem.is_talkable === true) {
             setDisplayText(foundItem.talk_response)
+            foundItem.exit_trigger=true
 
             if (foundItem.death_trigger === "talk") {
                 handleDeath()
