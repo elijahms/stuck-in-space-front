@@ -26,7 +26,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             })
         })
     
-        fetch(`https://serene-island-13021.herokuapp.com/items/${currRoom}`)
+        fetch(`https://serene-island-13021.herokuapp.com/item/${currRoom}`)
         .then((r) => r.json())
         .then((data) => {
             setItems(data)
@@ -281,7 +281,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
 
     function handleDeath() {
         setDeathElement(true)
-        fetch(`https://serene-island-13021.herokuapp.com/${userDetails.id}`,{
+        fetch(`https://serene-island-13021.herokuapp.com/user/${userDetails.id}`,{
         method: "PATCH", 
         headers: {
             "Content-Type" : "application/json"
