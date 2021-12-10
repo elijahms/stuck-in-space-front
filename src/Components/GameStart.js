@@ -27,7 +27,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
             if (form.username.length < 3 || form.email === null) {
             setDisplayText("Please enter a valid username and email.")
             e.target.reset()
-        } else if ([...checkUser].includes(form.username)) {
+        } else if ([...checkUser].map((u) => u.toLowerCase()).includes(form.username.toLowerCase())) {
             setDisplayText(`${form.username} is a taken username! Please select another. \n \n May we suggest:\n \n ${form.username}69\n ${form.username}420\n xX${form.username}Xx\n the_real_${form.username}`)
             e.target.reset()
         } else {
@@ -57,7 +57,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                 H: Type H for the Help menu \n
                 I: Type I to view the items you are currently carrying \n
                 R: Type R to return to the description of the room you are currently in \n
-                E: Type E to exit the room you are currently in, this will only work when you have cleared the room's objectives`)
+                E: Type E to exit the room you are currently in, this will only work when you have cleared the room's objectives \n \n Type ENTER to start.`)
                 e.target.reset()
                 }  
     }
