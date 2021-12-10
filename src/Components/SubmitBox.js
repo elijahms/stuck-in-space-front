@@ -17,7 +17,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
 
     //Use-effect loads the rooms and items
     useEffect(() => {
-        fetch(`http://localhost:9292/room/${currRoom}`)
+        fetch(`https://serene-island-13021.herokuapp.com/${currRoom}`)
         .then((r) => r.json())
         .then((data) => {
             setRoomInfo(roomInfo => {
@@ -26,7 +26,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             })
         })
     
-        fetch(`http://localhost:9292/item/${currRoom}`)
+        fetch(`https://serene-island-13021.herokuapp.com/${currRoom}`)
         .then((r) => r.json())
         .then((data) => {
             setItems(data)
@@ -281,7 +281,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
 
     function handleDeath() {
         setDeathElement(true)
-        fetch(`http://localhost:9292/user/${userDetails.id}`,{
+        fetch(`https://serene-island-13021.herokuapp.com/${userDetails.id}`,{
         method: "PATCH", 
         headers: {
             "Content-Type" : "application/json"

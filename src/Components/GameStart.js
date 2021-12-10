@@ -15,7 +15,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
     }
     
     useEffect(() => {
-        fetch(`http://localhost:9292/allusers`)
+        fetch(`https://serene-island-13021.herokuapp.com/allusers`)
         .then((r) => r.json())
         .then((data) => {
             setCheckUser(data);
@@ -31,7 +31,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
             setDisplayText(`${form.username} is a taken username! Please select another. \n \n May we suggest:\n \n ${form.username}69\n ${form.username}420\n xX${form.username}Xx\n the_real_${form.username}`)
             e.target.reset()
         } else {
-                fetch(`http://localhost:9292/newuser`, {
+                fetch(`https://serene-island-13021.herokuapp.com/newuser`, {
                     method: "POST",
                     headers: {
                         "Content-Type" : "application/json"

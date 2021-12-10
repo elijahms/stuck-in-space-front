@@ -6,7 +6,7 @@ const Death = ({displayText, score, userDetails}) => {
     const [userStats, setUserStats] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:9292/alluserstats`)
+        fetch(`https://serene-island-13021.herokuapp.com/alluserstats`)
         .then((r) => r.json())
         .then((data) => {
             setUserStats(data);
