@@ -38,13 +38,13 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     function handleSubmit(e) {
         e.preventDefault()
         let input = sub.split(" ")
-        // if (roomInfo.death_threshold === moveCount) {
-        //     if (items.every(i => i.exit_trigger!=true)) {
-        //         setDisplayText(roomInfo.death_threshold_met)
-        //         handleDeath()
-        //     }
-        // }
-        if (currRoom === 4 && items.every(i => i.exit_trigger===true)) {
+        if (roomInfo.death_threshold === moveCount) {
+            if (items.every(i => i.exit_trigger!=true)) {
+                setDisplayText(roomInfo.death_threshold_met)
+                handleDeath()
+            }
+        }
+        if (currRoom === 5 && items.every(i => i.exit_trigger===true)) {
             triggerWin()
         }
         if (targetedObject){
@@ -192,7 +192,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         TALK: Talk to to an object/person and they might talk back! \n
         USE: Use an item in your inventory on an object in the room. \n
         ATTACK: Attack an object/person in the room \n
-        ~~~ ADDITIONAL OPTIONS ~~~
+        ~~~ ADDITIONAL OPTIONS ~~~ \n
         H: Type H for the Help menu \n
         I: Type I to view the items you are currently carrying \n
         R: Type R to return to the description of the room you are currently in \n

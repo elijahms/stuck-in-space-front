@@ -53,7 +53,7 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                 TALK: Talk to to an object/person and they might talk back! \n
                 USE: Use an item in your inventory on an object in the room. \n
                 ATTACK: Attack an object/person in the room \n
-                ~~~ ADDITIONAL OPTIONS ~~~
+                ~~~ ADDITIONAL OPTIONS ~~~ \n
                 H: Type H for the Help menu \n
                 I: Type I to view the items you are currently carrying \n
                 R: Type R to return to the description of the room you are currently in \n
