@@ -1,6 +1,6 @@
 import Score from './Score'
 import TimeInGame from './TimeInGame'
-import TimeInRoom from './TimeInRoom'
+import MoveCount from './MoveCount'
 import DisplayText from './DisplayText'
 import SubmitBox from './SubmitBox'
 import GameStart from './GameStart'
@@ -18,11 +18,11 @@ const Content = () => {
     const [moveCount, setMoveCount] = useState(0)
     const [currRoom, setCurrRoom] = useState(0)
     const [deathElement, setDeathElement] = useState(false)
-    const [displayText, setDisplayText] = useState("Enter the realm of OUTER SPACE and attempt to make your way out, beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships! \n \n Please Enter a Username and Email" )
+    const [displayText, setDisplayText] = useState("Enter the realm of OUTER SPACE and attempt to make your way out, but beware of meteors, exploding satellites, and billionaires' vanity-project-rocketships! \n \n Enter a Username and Email" )
     
     return (
         <div className="content-container">
-                <Grid container columns={3} stackable>
+                <Grid className="big-grid" container columns={3} stackable>
                 <Grid.Column className="banner-1">
                     <Score
                         score={score} 
@@ -38,7 +38,7 @@ const Content = () => {
                     />
                     </Grid.Column>
                     <Grid.Column className="banner-3">
-                    <TimeInRoom 
+                    <MoveCount 
                         currRoom={currRoom}
                         moveCount={moveCount}
                     />

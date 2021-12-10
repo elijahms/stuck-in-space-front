@@ -1,7 +1,7 @@
 
 const Score = ({score}) => {
     return (
-        <div >
+        <div>
             <p>Score: {score}</p>
         </div>
     )

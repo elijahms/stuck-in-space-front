@@ -9,11 +9,11 @@ const Death = ({displayText, score, userDetails}) => {
         fetch(`http://localhost:9292/alluserstats`)
         .then((r) => r.json())
         .then((data) => {
-            setUserStats(data); 
+            setUserStats(data);
         })
     }, [])
 
-    let leaderboard = [...userStats].sort((a, b) => a[1] - b[1]).reverse().map((u) => `${u[0]} --- ${u[1]}\n`).slice(0, 10)
+    let leaderboard = [...userStats].sort((a, b) => a[1] - b[1]).reverse().map((u) => `${u[0]} --- ${u[1]}\n\n`).slice(0, 10)
     
     return (
         <div>
@@ -24,11 +24,11 @@ const Death = ({displayText, score, userDetails}) => {
                     wrapperClassName: "game-start",
                     delay: 20
                 }}
-                />
+            />
             <br />
             <p>Your Score: {userDetails.name}---{score}</p>
             <h3>Leaderboard:</h3>
-            <p>{leaderboard}</p>
+            <p style={{textAlign: "center"}} >{leaderboard}</p>
         </div>
     )
 }

@@ -18,19 +18,22 @@ body {
   color: white !important;
 }
 
-
+.big-grid {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 .banner-1 {
   display: inline-grid;
   justify-content: center;
   align-items: center;
   margin: 1%;
   color: #4AF626;
-  width: 30%;
-  font-size: 75%;
+  min-width: 250px;
+  font-size: 100%;
   margin-bottom: 3%;
   outline-color: white;
   outline-style: ridge ;
-  /* float: left; */
 }
 .banner-2 {
   display: inline-grid;
@@ -38,8 +41,8 @@ body {
   align-items: center;
   margin: 1%;
   color: #4AF626;
-  width: 30%;
-  font-size: 75%;
+  min-width: 250px;
+  font-size: 100%;
   margin-bottom: 3%;
   outline-color: white;
   outline-style: ridge ;
@@ -51,15 +54,14 @@ body {
   margin: 1%;
   margin-bottom: 3%;
   color: #4AF626;
-  width: 30%;
-  font-size: 75%;
+  min-width: 200px;
+  font-size: 100%;
   outline-color: white;
   outline-style: ridge ;
 }
 
-
 .content-container {
-  width: 50vw;
+  width: 70vw;
   border: 2px solid white;
   margin: 0 auto;
   justify-content: center;
@@ -73,7 +75,7 @@ body {
 }
 
 .game-div {
-  min-height: 300px;
+  min-height: 50vh;
   position: relative;
 }
 
@@ -108,7 +110,7 @@ body {
   border: hidden;
   outline: none;
   float: left;
-  width: 62%
+  width: 50%
 
 }
 .terminal-text {
@@ -122,5 +124,5 @@ body {
 }
 
 .main-display{
-  min-height: 250px;
+  min-height: 50vh;
 }

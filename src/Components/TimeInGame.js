@@ -5,7 +5,6 @@ const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond, deathE
     useEffect(() => {
         if (collectedUser) {
             let totalSeconds = 0
-            
             let timeInterval = setInterval(setTime, 1000);
             function setTime() {
                 ++totalSeconds;
@@ -26,7 +25,6 @@ const TimeInGame = ({collectedUser, second, minute, setMinute, setSecond, deathE
                 timeInterval.clearInterval()
             }
         }
-
     }, [collectedUser])
     
     return (

@@ -3,7 +3,8 @@ import Typewriter from 'typewriter-effect'
 
 
 const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, setUserDetails}) => {
-
+    
+    const [checkUser, setCheckUser] = useState([])
     const [form, setForm] = useState({
         username: "0",
         email: null
@@ -12,15 +13,12 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
     function handleChange(e) {
         setForm({...form, [e.target.name]: e.target.value})
     }
-
-    const [checkUser, setCheckUser] = useState([])
+    
     useEffect(() => {
         fetch(`http://localhost:9292/allusers`)
         .then((r) => r.json())
         .then((data) => {
             setCheckUser(data);
-            console.log(checkUser);
-            console.log(form.username);
         })
     }, [])
 
@@ -42,12 +40,24 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                 })
                 .then((r) => r.json())
                 .then((data) => {
-                    console.log(data);
                     setUserDetails(data)
                 })
                 setCollectedUser(true)
                 setCurrRoom(1)
-                setDisplayText(`Welcome ${form.username}, you've been abducted!`)
+                setDisplayText(`Welcome ${form.username}, you've been abducted! \n \n \n Interact with the world by using commands on objects in it. \n
+                Format your messages in the form of a COMMAND OBJECT \n
+                Not all commands will work on all objects! ex You can't TAKE a person or TALK to a window! \n
+                ~~~ COMMANDS ~~~ \n
+                INSPECT: Inspect an object to receive a detailed description of that object \n
+                TAKE: Take an object to add it to your inventory \n
+                TALK: Talk to to an object/person and they might talk back! \n
+                USE: Use an item in your inventory on an object in the room. \n
+                ATTACK: Attack an object/person in the room \n
+                ~~~ ADDITIONAL OPTIONS ~~~
+                H: Type H for the Help menu \n
+                I: Type I to view the items you are currently carrying \n
+                R: Type R to return to the description of the room you are currently in \n
+                E: Type E to exit the room you are currently in, this will only work when you have cleared the room's objectives`)
                 e.target.reset()
                 }  
     }
@@ -62,8 +72,8 @@ const GameStart = ({setCollectedUser, setCurrRoom, displayText, setDisplayText, 
                         delay: 30
                     }}/>
             <form onSubmit={handleSubmit}>
-                <input style={{paddingTop: "20px"}} className="no-outline" onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
-                <input className="no-outline" onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
+                <input style={{marginTop: "3vh"}} autoComplete="off" className="no-outline" onChange={handleChange} name="username" placeholder="main://>>username" type="text"></input>
+                <input className="no-outline" autoComplete= "off" onChange={handleChange} name="email" placeholder="main://>>email" type="email"></input>
                 <button className="play-button">Play</button>
             </form>
         </div>
