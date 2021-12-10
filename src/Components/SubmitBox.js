@@ -30,7 +30,6 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         .then((r) => r.json())
         .then((data) => {
             setItems(data)
-            console.log(data);
         })
     }, [currRoom])
 
@@ -39,7 +38,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         e.preventDefault()
         let input = sub.split(" ")
         if (roomInfo.death_threshold === moveCount) {
-            if (items.every(i => i.exit_trigger!=true)) {
+            if (items.every(i => i.exit_trigger!==true)) {
                 setDisplayText(roomInfo.death_threshold_met)
                 handleDeath()
             }
@@ -49,16 +48,16 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         }
         if (targetedObject){
             if (targetedObject.talk_choice_1){
-            if (input[0] == "1"){
+            if (input[0] === "1"){
                 setDisplayText(targetedObject.talk_choice_1)
-                if (targetedObject.death_trigger == "1") {
+                if (targetedObject.death_trigger === "1") {
                     handleDeath()
                 }
                 e.target.reset()
-            } else if (input[0] == "2"){
+            } else if (input[0] === "2"){
                 setDisplayText(targetedObject.talk_choice_2)
                 e.target.reset()
-                if (targetedObject.death_trigger == "2") {
+                if (targetedObject.death_trigger === "2") {
                     handleDeath()
                 }
             } else {
@@ -66,13 +65,13 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             }
         }
         if (targetedObject.inspect_choice_1){
-            if (input[0] == "1"){
+            if (input[0] === "1"){
                 setDisplayText(targetedObject.inspect_choice_1)
                 e.target.reset()
                 if (targetedObject.death_trigger === "1") {
                     handleDeath()
                 }
-            } else if (input[0] == "2"){
+            } else if (input[0] === "2"){
                 setDisplayText(targetedObject.inspect_choice_2)
                 e.target.reset()
                 if (targetedObject.death_trigger === "2") {
@@ -144,12 +143,13 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
             setDisplayText(`Using ${foundItem.name} on ${foundTarget.name} won't have any effect!`)
         }
     }
-
+    //Triggers the 'death' component to load with a victory message
     function triggerWin() {
         setDisplayText("You Wonnnn")
+        setScore((score) => score += 1000)
         setDeathElement(true)
     }
-
+    //handles exit by iterating the score, and changing the room
     function handleExit(){
         if (items.every(i => i.exit_trigger===true)){
             setCurrRoom((currRoom) => currRoom +1)
@@ -171,14 +171,12 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     }
 
     function handleInventory(){
-        if (inventory.length >0){
-        let invtext = inventory.map((i) => i.name)
-        setDisplayText(invtext.toString())
-        console.log(inventory)
+        if (inventory.length > 0){
+            let invtext = inventory.map((i) => i.name)
+            setDisplayText(invtext.toString())
         }
         else {
             setDisplayText("Your inventory is empty!")
-            console.log(inventory)
         }
     }
 
@@ -207,8 +205,8 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         setTargetedObject(foundItem)
 
         if (foundItem.is_talkable === false) {
+            setScore((score) => score -= 100)
             setDisplayText(`You can't talk to ${foundItem.name}! Sorry!`)
-            return `You can't talk to ${foundItem.name}! Sorry!`
         }
 
         if (foundItem.is_talkable === true) {
@@ -218,14 +216,13 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
                 handleDeath()
             }
             setMoveCount((moveCount) => moveCount += 1)
-            setScore((score) => score -= 100)
         }
     }
 
     // The function below handles the attack of an item        
     function handleAttack(item){
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
-        if (foundItem.is_attackable==true){
+        if (foundItem.is_attackable===true){
         setDisplayText(foundItem.attack_response)
 
         if (foundItem.death_trigger === "attack") {
@@ -235,10 +232,11 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         if (foundItem.triggers_on === "attack") {
             foundItem.exit_trigger=true
             setMoveCount((moveCount) => moveCount += 1)
-            setScore((score) => score -= 100)
+            setScore((score) => score += 200)
             }
     }else {
         setDisplayText(`You cannot Attack the ${foundItem.name}, sorry!`)
+        setScore((score) => score -= 100)
     }}
     
     function handleInspect(item){
@@ -246,7 +244,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         setTargetedObject(foundItem)
         setDisplayText(foundItem.description)
         setMoveCount((moveCount) => moveCount += 1)
-        setScore((score) => score -= 100)
+        setScore((score) => score += 100)
         console.log(foundItem.triggers_on)
         console.log(foundItem.exit_trigger)
         if (foundItem.death_trigger === "inspect") {
@@ -260,15 +258,12 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     }
     function handleTake(item){
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
-        console.log(foundItem)
-        console.log(inventory)
         if (foundItem.is_takeable === false){
-            console.log(`You can't Take the ${foundItem.name}! Sorry!`)
+            setScore((score) => score -= 100)
             setDisplayText(`You can't Take the ${foundItem.name}! Sorry!`)
         }
         else {
             if (inventory.includes(foundItem)){
-                console.log(`You already have the ${foundItem.name}!`)
                 setDisplayText(`You already have the ${foundItem.name}!`)
             }
             else {
@@ -276,12 +271,10 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
                 if (foundItem.death_trigger === "take") {
                     handleDeath()
                 }
+                setScore((score) => score += 200)
                 setInventory([...inventory,foundItem])
-                console.log(`You picked up ${foundItem.name}!`)
-                console.log(inventory)
                 setDisplayText(`You picked up ${foundItem.name}!`)
                 setMoveCount((moveCount) => moveCount += 1)
-                setScore((score) => score -= 100)
             }
         }
     }
