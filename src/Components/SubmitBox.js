@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails, minute, second}) => {
+const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCount, setDeathElement, setScore, score, userDetails, minute, second, setDisplayFastText}) => {
 
     //State and Variables of the Submit Box
     const [sub, setSub] = useState(null)
@@ -39,6 +39,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         let input = sub.split(" ")
         if (roomInfo.death_threshold === moveCount) {
             if (items.every(i => i.exit_trigger!==true)) {
+                setDisplayFastText(null)
                 setDisplayText(roomInfo.death_threshold_met)
                 handleDeath()
             }
@@ -49,35 +50,41 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         if (targetedObject){
             if (targetedObject.talk_choice_1){
             if (input[0] === "1"){
+                setDisplayFastText(null)
                 setDisplayText(targetedObject.talk_choice_1)
                 if (targetedObject.death_trigger === "1") {
                     handleDeath()
                 }
                 e.target.reset()
             } else if (input[0] === "2"){
+                setDisplayFastText(null)
                 setDisplayText(targetedObject.talk_choice_2)
                 e.target.reset()
                 if (targetedObject.death_trigger === "2") {
                     handleDeath()
                 }
             } else {
+                setDisplayFastText(null)
                 setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.talk_response}`)
             }
         }
         if (targetedObject.inspect_choice_1){
             if (input[0] === "1"){
+                setDisplayFastText(null)
                 setDisplayText(targetedObject.inspect_choice_1)
                 e.target.reset()
                 if (targetedObject.death_trigger === "1") {
                     handleDeath()
                 }
             } else if (input[0] === "2"){
+                setDisplayFastText(null)
                 setDisplayText(targetedObject.inspect_choice_2)
                 e.target.reset()
                 if (targetedObject.death_trigger === "2") {
                     handleDeath()
                 }
             } else {
+                setDisplayFastText(null)
                 setDisplayText(`ENTER "1" or "2" TO ANSWER THIS PROMPT: ${targetedObject.description}`)
             }
         }}
@@ -87,6 +94,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
                 handleUse(input[1],input[input.length-1])
             }
             else {
+                setDisplayFastText(null)
                 setDisplayText(`I didn't quite catch that. Remember the syntax for USE is: Use (item from inventory) on (item in room)`)
             }
         }
@@ -135,54 +143,63 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         let foundItem = inventory.find(i => i.name.toLowerCase()===usedItem.toLowerCase())
         let foundTarget = items.find(i => i.name.toLowerCase()===targetItem.toLowerCase())
         if (foundItem.id === foundTarget.catalyst_item) {
+            setDisplayFastText(null)
             setDisplayText(foundTarget.catalyst_response)
             setMoveCount((moveCount) => moveCount += 1)
             foundTarget.exit_trigger=true
         }
         else {
+            setDisplayFastText(null)
             setDisplayText(`Using ${foundItem.name} on ${foundTarget.name} won't have any effect!`)
         }
     }
     //Triggers the 'death' component to load with a victory message
     function triggerWin() {
+        setDisplayFastText(null)
         setDisplayText("You Wonnnn")
         setScore((score) => score += 1000)
         setDeathElement(true)
     }
     //handles exit by iterating the score, and changing the room
     function handleExit(){
-        console.log(items)
-        if (items.every(i => i.exit_trigger==true)){
-            setCurrRoom((currRoom) => currRoom +1)
+        if (items.every(i => i.exit_trigger === true)){
+            setCurrRoom((currRoom) => currRoom + 1)
             setScore((score) => score += 1000)
             setMoveCount(0)
-        setDisplayText(`You have successfully left the ${roomInfo.name}! Type 'Enter' to continue to the next room.`)
+            setDisplayFastText(null)
+            setDisplayText(`You have successfully left the ${roomInfo.name}! Type 'Enter' to continue to the next room.`)
         console.log(currRoom)}
         else {
+            setDisplayFastText(null)
             setDisplayText(`You have not yet met the requirements to exit the ${roomInfo.name}. There's some more to do! Hit 'r' to return to the room's description, and 'h' if you need a refresher on your options.`)
         }
     }
 
     function handleEnter(){
+        setDisplayFastText(null)
         setDisplayText(`${roomInfo.intro_description}`)
     }
 
     function handleReturn(){
-        setDisplayText(`${roomInfo.name}:\n \n ${roomInfo.description}`)
+        setDisplayText(null)
+        setDisplayFastText(`${roomInfo.name}:\n \n ${roomInfo.description}`)
     }
 
     function handleInventory(){
         if (inventory.length > 0){
             let invtext = inventory.map((i) => i.name)
+            setDisplayFastText(null)
             setDisplayText(invtext.toString())
         }
         else {
+            setDisplayFastText(null)
             setDisplayText("Your inventory is empty!")
         }
     }
 
     function handleHelp() {
-        setDisplayText(`Interact with the world by using commands on objects in it. \n
+        setDisplayText(null)
+        setDisplayFastText(`Interact with the world by using commands on objects in it. \n
         Format your messages in the form of a COMMAND OBJECT \n
         Not all commands will work on all objects! ex You can't TAKE a person or TALK to a window! \n
         ~~~ COMMANDS ~~~ \n
@@ -201,6 +218,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
 
     // The function below handles the speaking-to of an item
     function handleTalk(item) {
+        setDisplayFastText(null)
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
 
         setTargetedObject(foundItem)
@@ -223,6 +241,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
 
     // The function below handles the attack of an item        
     function handleAttack(item){
+        setDisplayFastText(null)
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
         if (foundItem.is_attackable===true){
         setDisplayText(foundItem.attack_response)
@@ -242,6 +261,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     }}
     
     function handleInspect(item){
+        setDisplayFastText(null)
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
         setTargetedObject(foundItem)
         setDisplayText(foundItem.description)
@@ -259,6 +279,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
         return foundItem.description
     }
     function handleTake(item){
+        setDisplayFastText(null)
         let foundItem = items.find(i => i.name.toLowerCase() === item.toLowerCase())
         if (foundItem.is_takeable === false){
             setScore((score) => score -= 100)
@@ -282,6 +303,7 @@ const SubmitBox = ({ setDisplayText, setCurrRoom, currRoom, setMoveCount, moveCo
     }
 
     function handleDeath() {
+        setDisplayFastText(null)
         setDeathElement(true)
         fetch(`https://serene-island-13021.herokuapp.com/user/${userDetails.id}`,{
         method: "PATCH", 

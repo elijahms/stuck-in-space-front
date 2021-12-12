@@ -14,6 +14,7 @@ const Content = () => {
     const [score, setScore] = useState(10000)
     const [second, setSecond] = useState("00")
     const [minute, setMinute] = useState("00")
+    const [displayFastText, setDisplayFastText] = useState('')
     const [userDetails, setUserDetails] = useState([])
     const [moveCount, setMoveCount] = useState(0)
     const [currRoom, setCurrRoom] = useState(0)
@@ -65,6 +66,7 @@ const Content = () => {
                 <DisplayText 
                     displayText={displayText}
                     setDisplayText={setDisplayText} 
+                    displayFastText={displayFastText}
                 />
                 <SubmitBox 
                     setDealthElement={setDeathElement}
@@ -80,6 +82,7 @@ const Content = () => {
                     userDetails={userDetails}
                     minute={minute}
                     second={second}
+                    setDisplayFastText={setDisplayFastText}
                 />
                 </div>}
             </div>}

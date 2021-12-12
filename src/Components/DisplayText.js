@@ -1,6 +1,6 @@
 import Typewriter from 'typewriter-effect';
 
-const DisplayText = ({displayText}) => {
+const DisplayText = ({displayText, displayFastText}) => {
     
     return (
         <div className="main-display">
@@ -9,9 +9,20 @@ const DisplayText = ({displayText}) => {
                     strings: displayText,
                     autoStart: true,
                     wrapperClassName: "game-start",
-                    delay: 35
+                    delay: 35,
+                    cursor: ""
                 }}
                 />
+                {/* <Typewriter
+                options={{
+                    strings: displayFastText,
+                    autoStart: true,
+                    wrapperClassName: "game-start",
+                    delay: 0,
+                    cursor: ''
+                }}
+                /> */}
+                <p>{displayFastText}</p>
         </div>
     )
 }

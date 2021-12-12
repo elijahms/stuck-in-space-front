@@ -28,7 +28,7 @@ const Death = ({displayText, score, userDetails}) => {
             <br />
             <p>Your Score: {userDetails.name}---{score}</p>
             <h3>Leaderboard:</h3>
-            <p style={{textAlign: "center"}} >{leaderboard}</p>
+            <p>{leaderboard}</p>
         </div>
     )
 }

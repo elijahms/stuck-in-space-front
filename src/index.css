@@ -15,7 +15,7 @@ body {
 }
 .header-file {
   text-align: center;
-  color: white !important;
+  color: white;
 }
 
 .big-grid {
@@ -60,6 +60,26 @@ body {
   outline-style: ridge ;
 }
 
+.navBar {
+  display: inline-grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 8vw;
+  margin-left: 41vw; 
+  margin-bottom: 1%;
+}
+
+.navBar2 {
+  display: inline-grid;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 8vw;
+  margin-right: 41vw; 
+  margin-bottom: 1%;
+}
+
 .content-container {
   width: 70vw;
   border: 2px solid white;
@@ -70,6 +90,21 @@ body {
   white-space: pre-line;
   font-family: 'TerminalFont';
 }
+
+.leaderboard-container {
+  width: 25vw;
+  min-height: 55vh;
+  border: 2px solid white;
+  margin: 0 auto;
+  justify-content: center;
+  padding: 1%;
+  align-items: center;
+  overflow: auto;
+  white-space: pre-line;
+  font-family: 'TerminalFont';
+  text-align: center;
+}
+
 .game-start {
   white-space: pre-line;
 }
