@@ -1,8 +1,8 @@
-import HeaderFile from './HeaderFile';
-import Content from './Content';
+import HeaderFile from "./HeaderFile";
+import Content from "./Content";
 import { Route, Switch } from "react-router-dom";
-import Leaderboard from './Leaderboard';
-import NavBar from './NavBar';
+import Leaderboard from "./Leaderboard";
+import NavBar from "./NavBar";
 
 function App() {
   return (

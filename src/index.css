@@ -1,17 +1,16 @@
 body {
   background-color: black;
   height: 100vh;
-  font-family: 'TerminalFont';
-  color: #4AF626;
+  font-family: "TerminalFont";
+  color: #4af626;
   width: 100vw;
-
 }
 ::selection {
-  background: #4AF626
+  background: #4af626;
 }
 @font-face {
-  font-family: 'TerminalFont';
-  src: local('TerminalFont'), url(./Fonts/Modeseven-L3n5.ttf) format('truetype');
+  font-family: "TerminalFont";
+  src: local("TerminalFont"), url(./Fonts/Modeseven-L3n5.ttf) format("truetype");
 }
 .header-file {
   text-align: center;
@@ -28,24 +27,24 @@ body {
   justify-content: center;
   align-items: center;
   margin: 1%;
-  color: #4AF626;
+  color: #4af626;
   min-width: 250px;
   font-size: 100%;
   margin-bottom: 3%;
   outline-color: white;
-  outline-style: ridge ;
+  outline-style: ridge;
 }
 .banner-2 {
   display: inline-grid;
   justify-content: center;
   align-items: center;
   margin: 1%;
-  color: #4AF626;
+  color: #4af626;
   min-width: 250px;
   font-size: 100%;
   margin-bottom: 3%;
   outline-color: white;
-  outline-style: ridge ;
+  outline-style: ridge;
 }
 .banner-3 {
   display: inline-grid;
@@ -53,11 +52,11 @@ body {
   align-items: center;
   margin: 1%;
   margin-bottom: 3%;
-  color: #4AF626;
+  color: #4af626;
   min-width: 200px;
   font-size: 100%;
   outline-color: white;
-  outline-style: ridge ;
+  outline-style: ridge;
 }
 
 .navBar {
@@ -66,7 +65,7 @@ body {
   align-items: center;
   text-align: center;
   width: 8vw;
-  margin-left: 41vw; 
+  margin-left: 41vw;
   margin-bottom: 1%;
 }
 
@@ -76,7 +75,7 @@ body {
   align-items: center;
   text-align: center;
   width: 8vw;
-  margin-right: 41vw; 
+  margin-right: 41vw;
   margin-bottom: 1%;
 }
 
@@ -88,7 +87,7 @@ body {
   padding: 1%;
   overflow: auto;
   white-space: pre-line;
-  font-family: 'TerminalFont';
+  font-family: "TerminalFont";
 }
 
 .leaderboard-container {
@@ -101,7 +100,7 @@ body {
   align-items: center;
   overflow: auto;
   white-space: pre-line;
-  font-family: 'TerminalFont';
+  font-family: "TerminalFont";
   text-align: center;
 }
 
@@ -117,8 +116,8 @@ body {
 .no-outline {
   width: 100%;
   background: black;
-  font-family: 'TerminalFont'; 
-  color: #4AF626;
+  font-family: "TerminalFont";
+  color: #4af626;
   border: hidden;
   outline: none;
 }
@@ -128,36 +127,35 @@ body {
 .play-button {
   width: 100%;
   background: black;
-  font-family: 'TerminalFont'; 
-  color: #4AF626;
+  font-family: "TerminalFont";
+  color: #4af626;
   border: hidden;
   outline: none;
   position: absolute;
   bottom: 0px;
 }
 .play-button:hover {
-  color: #229c09 !important
+  color: #229c09 !important;
 }
 .terminal-submit {
   background: black;
-  font-family: 'TerminalFont'; 
-  color: #4AF626;
+  font-family: "TerminalFont";
+  color: #4af626;
   border: hidden;
   outline: none;
   float: left;
-  width: 50%
-
+  width: 50%;
 }
 .terminal-text {
   background: black;
-  font-family: 'TerminalFont'; 
-  color: #4AF626;
+  font-family: "TerminalFont";
+  color: #4af626;
   border: hidden;
   outline: none;
   padding-right: 1%;
   float: left;
 }
 
-.main-display{
+.main-display {
   min-height: 50vh;
 }

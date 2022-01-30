@@ -1,6 +1,6 @@
 {
-  "short_name": "Stuckinspace",
-  "name": "Stuck In Space",
+  "short_name": "stuckinspace",
+  "name": "Stuck-in-Space",
   "icons": [],
   "start_url": ".",
   "display": "standalone",
